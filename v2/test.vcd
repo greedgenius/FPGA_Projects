@@ -1,0 +1,271 @@
+$date
+	Tue Oct  9 01:23:42 2012
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module t_multiplier $end
+$scope module spitouart_camp2 $end
+$var wire 1 ! Pulse1_in $end
+$var wire 1 " Pulse1_in_buf $end
+$var wire 1 # Pulse2_in $end
+$var wire 1 $ Pulse2_in_buf $end
+$var wire 1 % TxD_busy $end
+$var wire 1 & clk $end
+$var wire 12 ' data1 [11:0] $end
+$var wire 12 ( data2 [11:0] $end
+$var wire 1 ) done $end
+$var wire 26 * meanSqrData1_comb [25:0] $end
+$var wire 26 + meanSqrData2_comb [25:0] $end
+$var wire 1 , rst $end
+$var wire 1 - uartok_buf $end
+$var reg 2 . TxD_busy_sr [1:0] $end
+$var reg 8 / TxD_data [7:0] $end
+$var reg 1 0 TxD_start $end
+$var reg 37 1 addMeanSqrData1 [36:0] $end
+$var reg 37 2 addMeanSqrData2 [36:0] $end
+$var reg 3 3 camp_current_state [2:0] $end
+$var reg 3 4 camp_next_state [2:0] $end
+$var reg 12 5 data1_reg [11:0] $end
+$var reg 12 6 data2_reg [11:0] $end
+$var reg 12 7 dataCount [11:0] $end
+$var reg 1 8 dataReady $end
+$var reg 2 9 dataReady_sr [1:0] $end
+$var reg 13 : mean [12:0] $end
+$var reg 26 ; meanSqrData1 [25:0] $end
+$var reg 26 < meanSqrData2 [25:0] $end
+$var reg 16 = p1count [15:0] $end
+$var reg 16 > p1count_next [15:0] $end
+$var reg 16 ? p2count [15:0] $end
+$var reg 16 @ p2count_next [15:0] $end
+$var reg 1 A pcount_rst $end
+$var reg 24 B powerdata1 [23:0] $end
+$var reg 24 C powerdata1_lock [23:0] $end
+$var reg 24 D powerdata2 [23:0] $end
+$var reg 24 E powerdata2_lock [23:0] $end
+$var reg 16 F powerdata3 [15:0] $end
+$var reg 16 G powerdata3_lock [15:0] $end
+$var reg 16 H powerdata4 [15:0] $end
+$var reg 16 I powerdata4_lock [15:0] $end
+$var reg 13 J s_data1_reg [12:0] $end
+$var reg 13 K s_data2_reg [12:0] $end
+$var reg 7 L scount [6:0] $end
+$var reg 7 M scount_next [6:0] $end
+$var reg 1 N scount_start $end
+$var reg 2 O spi_current_state [1:0] $end
+$var reg 2 P spi_next_state [1:0] $end
+$var reg 1 Q start $end
+$var reg 13 R submean1 [12:0] $end
+$var reg 13 S submean2 [12:0] $end
+$var reg 5 T uart_current_state [4:0] $end
+$var reg 5 U uart_next_state [4:0] $end
+$var reg 1 V uartok $end
+$var reg 18 W ucount [17:0] $end
+$var reg 18 X ucount_next [17:0] $end
+$var reg 1 Y ucount_start $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+xY
+bx X
+bx W
+xV
+bx U
+bx T
+bx S
+bx R
+xQ
+bx P
+bx O
+xN
+bx M
+bx L
+bx K
+bx J
+bx I
+bx H
+bx G
+bx F
+bx E
+bx D
+bx C
+bx B
+xA
+bx @
+bx ?
+bx >
+bx =
+bx <
+bx ;
+bx :
+bx 9
+x8
+bx 7
+bx 6
+bx 5
+bx 4
+bx 3
+bx 2
+bx 1
+x0
+bx /
+bx .
+z-
+x,
+bx +
+bx *
+x)
+bx (
+bx '
+0&
+x%
+z$
+x#
+z"
+x!
+$end
+#5000
+b0 P
+b0 M
+b0 U
+b0 X
+0N
+0Q
+0V
+0A
+0Y
+00
+1&
+#10000
+b0 4
+b1 P
+b0 T
+b0 3
+b0 O
+0&
+1,
+#15000
+b0 W
+b0 L
+08
+1&
+#20000
+0&
+0,
+#25000
+b10 P
+b1 O
+bx0 9
+1&
+#26000
+1#
+1!
+b111111110111 (
+b111111011001 '
+1%
+0)
+#30000
+0&
+#35000
+b11111110111 S
+b1111110111000001010001 +
+b11111011001 R
+b1111011001010111110001 *
+b111111110111 K
+b111111011001 J
+b100000000000 :
+b111111110111 6
+b111111011001 5
+1Q
+b10 O
+bx1 .
+b0 9
+1&
+#36000
+0!
+b11101 (
+b111101 '
+0%
+1)
+#40000
+0&
+#45000
+b1 M
+1N
+18
+b10 .
+1&
+#46000
+0#
+1!
+b111110111010 (
+b1011001 '
+#50000
+0&
+#55000
+b10 M
+b1 L
+b0 .
+b1 9
+1&
+#56000
+0!
+b100111 (
+b111111111110 '
+1%
+#60000
+0&
+#65000
+b11 P
+b11 M
+b10 L
+b1 .
+b11 9
+1&
+#66000
+1#
+1!
+b111111111101 (
+b1010100 '
+0)
+#70000
+0&
+#75000
+b100 M
+b11 L
+b11 O
+b11 .
+1&
+#76000
+0!
+b100100 (
+b111110111100 '
+0%
+1)
+#80000
+0&
+#85000
+b101 M
+0Q
+b100 L
+b10 .
+1&
+#86000
+1!
+b111111110011 (
+b111111011101 '
+1%
+0)
+#90000
+0&
+#95000
+b110 M
+b101 L
+b1 .
+1&
+#96000
