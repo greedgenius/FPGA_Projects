@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-module t_multiplier;
+module t_spitouart;
     
     parameter CLK_CYCLE=10;
 
@@ -47,7 +47,7 @@ module t_multiplier;
 
     initial
      begin
-     $dumpfile("test.vcd");
+     $dumpfile("spitouart_camp2.vcd");
      $dumpvars(0,spitouart_camp2);
      end
 

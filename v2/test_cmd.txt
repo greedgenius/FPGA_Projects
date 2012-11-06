@@ -1,2 +1,0 @@
- iverilog -o b_spitouart_camp2 t_spitouart_camp2.v spitouart_camp2.v 
- gtkwave test.vcd 

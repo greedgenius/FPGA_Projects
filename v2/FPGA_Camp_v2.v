@@ -1,23 +1,7 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: Feng-Ming Zhu
-// 
-// Create Date:    20:55:50 08/07/2011 
-// Design Name: 
-// Module Name:    FPGA_Camp 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
-//
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
-//////////////////////////////////////////////////////////////////////////////////
+`include "async_transmitter_50MHz-parityodd.v"
+`include "spi_recieve.v"
+`include "spitouart_camp2.v"
 module FPGA_Camp_v2(clk,rst,TxD,sdata1,sdata2,sclk,ncs
 ,data1,Pulse1_in,Pulse2_in
     );
