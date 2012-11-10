@@ -85,7 +85,7 @@ end
 reg tx_data_bit;
 reg start_stop_parity;
 //determine sending bit
-always @ (bits_sent) begin
+always @ (posedge clk) begin
 	case (bits_sent)
 		TX_START_BIT: 	begin tx_data_bit=0; start_stop_parity=0; end
 		TX_STOP_BIT: 	begin tx_data_bit=0; start_stop_parity=1; end
@@ -98,7 +98,11 @@ end
 reg tx;
 //tx output select
 always @ (posedge clk or negedge rst_n) begin
-	if (~rst_n |((bits_sent==BITS_PER_PACK-1) & tx_en) ) begin
+	if (~rst_n) begin
+		tx<=1;
+		bits_sent <= 0;
+	end
+	else if ((bits_sent==BITS_PER_PACK-1) & tx_en) begin
 		tx<=1;
 		bits_sent <= 0;
 	end
@@ -108,8 +112,6 @@ always @ (posedge clk or negedge rst_n) begin
 	end
 end
 
-//wire [2:0] data_sel;
-//assign data_sel = bits_sent[2:0]-3'd1;
 assign tx_busy = tx_cnt_en;
 
 endmodule
