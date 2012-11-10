@@ -1,4 +1,4 @@
-all: FPGA_Camp_v2.bit
+all: uart.bit
 
 %.v: %.vpp
 	vpp $< > $@
@@ -14,13 +14,13 @@ all: FPGA_Camp_v2.bit
 	echo "-write_timing_constraints yes" >> $@
 	echo "-opt_mode Speed" >> $@
 	echo "-opt_level 1" >> $@
-	echo "-top FPGA_Camp_v2" >> $@
+	echo "-top uart" >> $@
 
 %.ngc: %.xst %.v
 	xst -ifn $<
 
 %.ngd: %.ngc
-	ngdbuild -aul $* -uc FPGA_Camp_v2.ucf
+	ngdbuild -aul $* -uc uart.ucf
 #	ngdbuild -aul $* -uc starter_board.ucf
 
 %.ncd: %.ngd
