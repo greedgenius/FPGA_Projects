@@ -28,6 +28,7 @@ module t_uart;
 		begin
 			@ (posedge clk); 
 		end
+	        $write("send byte =%h\t", tx_data);
 	end
 	endtask
 
