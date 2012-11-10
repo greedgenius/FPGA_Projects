@@ -83,9 +83,9 @@ very-clean: xilinx-clean verilog-clean
 #SRC = spi_receive.v
 #TESTBENCH = t_spi_receive.v
 #TBOUTPUT = spi_receive.vcd#waves.lxt	#THIS NEEDS TO MATCH THE OUTPUT FILE
-SRC = async_receiver.v
-TESTBENCH = t_async_receiver.v
-TBOUTPUT = async_receiver.vcd#waves.lxt	#THIS NEEDS TO MATCH THE OUTPUT FILE
+SRC = uart.v
+TESTBENCH = t_uart.v
+TBOUTPUT = uart.vcd#waves.lxt	#THIS NEEDS TO MATCH THE OUTPUT FILE
 			#FROM YOUR TESTBENCH
 ###############################################################################
 # BE CAREFUL WHEN CHANGING ITEMS BELOW THIS LINE
