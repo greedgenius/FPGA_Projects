@@ -1,3 +1,5 @@
+//UART module
+//Developed by F.M.Zhu
 module uart (clk, rst_n, tx_data, tx_send, tx, tx_busy, rx, rx_data, rx_ok);
 
 input		clk, rst_n;
