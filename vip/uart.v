@@ -11,22 +11,28 @@ input		rx;
 output	[7:0]	rx_data;
 output		rx_ok;
 
+//registers and wires
+reg	[14:0]	tx_cnt, rx_cnt;
+reg		tx_cnt_en, rx_cnt_en;
+reg	[7:0]	tx_data_reg;
+reg	[3:0]	bits_sent;
+reg		tx_data_bit;
+reg		start_stop_parity;
+reg		tx;
+wire		tx_en, rx_en;
+
+
 //parameters
 parameter CLK_FREQ	=	32'd50000000;
 parameter BAUD		=	115200;
 parameter CNT_PER_BAUD	=	(CLK_FREQ+(BAUD/2))/BAUD;
 
-parameter CNT_SIZE	=	32;
 parameter BITS_PER_PACK	=	1+8+1; //1 start 8 data 1 stop
 parameter TX_START_BIT	=	4'd0;
 parameter TX_STOP_BIT	=	4'd9;
  
 
 //tx counter
-reg	[14:0]	tx_cnt;
-reg		tx_cnt_en;
-wire		tx_en;
-
 always @ (posedge clk or negedge rst_n) begin
 	if (~rst_n)
 		tx_cnt <= 0;
@@ -37,14 +43,9 @@ always @ (posedge clk or negedge rst_n) begin
 end
 
 assign tx_en = (tx_cnt == CNT_PER_BAUD);
-//
 
 
 //rx counter
-reg	[14:0]	rx_cnt;
-reg		rx_cnt_en;
-wire		rx_en;
-
 always @ (posedge clk or negedge rst_n) begin 
 	if (~rst_n) 
 		rx_cnt <= 0;
@@ -54,22 +55,16 @@ always @ (posedge clk or negedge rst_n) begin
 		rx_cnt <= 0;
 end
 
-assign rx_en = ~(tx_cnt < CLK_FREQ);
-//
-
+assign rx_en =  (rx_cnt == CNT_PER_BAUD);
 
 //tx input flopping
-reg	[7:0]	tx_data_reg;
 always @ (posedge clk or negedge rst_n) begin 
 	if (~rst_n)
 		tx_data_reg <=0;
 	else if (tx_send & ~tx_cnt_en)
 		tx_data_reg <= tx_data;
 end
-//
 
-
-reg	[3:0]	bits_sent;
 //counter control
 always @ (posedge clk or negedge rst_n) begin
 	if (~rst_n)
@@ -79,11 +74,7 @@ always @ (posedge clk or negedge rst_n) begin
 	else if (tx_send)
 		tx_cnt_en<=1'b1;
 end
-//
 
-
-reg tx_data_bit;
-reg start_stop_parity;
 //determine sending bit
 always @ (posedge clk) begin
 	case (bits_sent)
@@ -93,9 +84,6 @@ always @ (posedge clk) begin
 	endcase
 end
 
-
-
-reg tx;
 //tx output select
 always @ (posedge clk or negedge rst_n) begin
 	if (~rst_n) begin
