@@ -2,135 +2,133 @@
 
 module t_uart;
 
-	parameter CLK_CYCLE=20;
-	parameter UART_TX_WAIT = 1000000000/115200;
+parameter CLK_CYCLE=20;
+parameter UART_TX_WAIT = 1000000000/115200;
 
-	// Inputs
-        reg		clk,tx_send, rst_n;
-	reg	[7:0]	tx_data;
-	reg 		rx;
-	// Outputs
-        wire		tx, tx_busy;
-        wire	[7:0]	rx_data;
-	wire		rx_ok;
-	// Integers
-	integer		i;
-	
-	
-	// Instantiate the Unit Under Test (UUT)
-	uart uart(clk, rst_n, tx_data, tx_send, tx, tx_busy, rx, rx_data, rx_ok);
-	
-	task sendTx; begin
-        	tx_data=$random;
-		@ (posedge clk); tx_send = 1;
-		@ (posedge clk); tx_send = 0;
-		uart_decoder(tx_data);
-	end
-	endtask
-	
-	
-	task sendRx; 
-		reg [7:0] send_rx_data;
-		begin
-		send_rx_data = $random;
-		rx = 1'b0;
+// Inputs
+reg		clk,tx_send, rst_n;
+reg	[7:0]	tx_data;
+reg 		rx;
+
+
+// Outputs
+wire		tx, tx_busy;
+wire	[7:0]	rx_data;
+wire		rx_ok;
+
+
+
+//Unit Under Test 
+uart uart(clk, rst_n, tx_data, tx_send, tx, tx_busy, rx, rx_data, rx_ok);
+
+
+//Main Testbench
+always #(CLK_CYCLE/2) clk=~clk;
+
+initial begin
+	clk=0;
+	rx=1;
+	reset;
+end
+
+initial begin
+	@(posedge rst_n);
+	@(posedge clk);
+	repeat(20) test_tx($random);
+	$finish;
+end
+
+initial begin
+	@(posedge rst_n);
+	@(posedge clk);
+	repeat(20) test_rx($random);
+	$finish;
+end
+
+initial begin
+	$dumpfile("uart.vcd");
+	$dumpvars(0, uart);
+end
+
+
+//Tasks
+task reset; begin
+	#10; rst_n=0;
+	#10; rst_n=1;
+end
+endtask
+
+//verify uart receive function
+task test_rx; 
+input	[7:0]	rx_data_sim; //simulated UART signal for rx
+integer		i;
+
+begin
+	rx = 1'b0;
+	#UART_TX_WAIT;
+	for ( i = 0; i < 8 ; i = i + 1 ) begin
+		rx = rx_data_sim[i];
 		#UART_TX_WAIT;
-		for ( i = 0; i < 8 ; i = i + 1 ) begin
-			rx = send_rx_data[i];
-			#UART_TX_WAIT;
-		end        
-		rx = 1'b1;	    
-    		rx_output_decode(send_rx_data);
+	end        
+	rx = 1'b1;	    
+	rx_compare_module_result(rx_data_sim);
+	
+end
+endtask
+
+task rx_compare_module_result;
+input	[7:0]	rx_data_sim;
+integer i;
+
+begin
+	@ (posedge rx_ok);
+	@ (negedge clk);
+	if (rx_data_sim != rx_data) 
+		$write("RX MISMATCH:\texpected = %h\tmodule got = %h\n", rx_data_sim, rx_data);
+	else
+		$write("RX PASS: byte = %h\n", rx_data_sim);
+end	
+endtask
+
+
+//verify uart transmit function
+task test_tx;
+input	[7:0]	tx_data_set;
+begin
+	tx_data = tx_data_set;
+	@ (posedge clk); tx_send = 1;
+	@ (posedge clk); tx_send = 0;
+
+	tx_compare_module_result(tx_data_set);
+end
+endtask
+
+task tx_compare_module_result;
+input	[7:0]	tx_data_set;
+integer i;
+reg [7:0] tx_data_decoded; //module tx output decoded by testbench
+begin
+        while (tx == 1'b1)
+		@(tx);
+	#(UART_TX_WAIT + (UART_TX_WAIT/2));
+
+        for ( i = 0; i < 8 ; i = i + 1 ) begin
+        	tx_data_decoded[i] = tx;
+        	#UART_TX_WAIT;
+        end
+	
+        if (tx == 1'b0) begin
+        	$display("* WARNING: user stop bit not received when expected at time %d__", $time);
+        	while (tx == 1'b0)
+        	@(tx);
+        end
+
+        if (tx_data_set!=tx_data_decoded) 
+		$write("TX MISMATCH:\texpected = %h\tmodule gen = %h\n", tx_data_set, tx_data_decoded);
+	else
+		$write("TX PASS: byte = %h\n", tx_data_decoded);
 		
-	end
-	endtask
+end
+endtask
 
-
-	task reset; begin
-		#10; rst_n=0;
-		#10; rst_n=1;
-	end
-	endtask
-    
-    
-
-	task uart_decoder;
-	input	[7:0]	expected_tx_data;
-	integer i;
-	reg [7:0] tx_byte;
-	//reg tx_parity;
-	begin
-	        // Wait for start bit
-	        while (tx == 1'b1)
-			@(tx);
-		#(UART_TX_WAIT + (UART_TX_WAIT/2));
-	
-	        for ( i = 0; i < 8 ; i = i + 1 ) begin
-	        	tx_byte[i] = tx;
-	        	#UART_TX_WAIT;
-	        end
-		
-		//tx_parity=tx;
-		//#UART_TX_WAIT;
-	
-	        //Check for stop bit
-	        if (tx == 1'b0) begin
-	        	//$display("* WARNING: user stop bit not received when expected at time %d__", $time);
-	        	// Wait for return to idle
-	        	while (tx == 1'b0)
-	        	@(tx);
-	        	//$display("* USER UART returned to idle at time %d",$time);
-	        end
-	        // display the char
-	        $write("TX:\texpected byte = %h\treceived byte = %h\n", expected_tx_data, tx_byte);
-	end
-	endtask
- 	
-
-	
-	task rx_output_decode;
-	input	[7:0]	expected_rx_data;
-	integer i;
-	reg [7:0] rx_byte;
-	//reg tx_parity;
-	begin
-	        // Wait for start bit
-	        @ (posedge rx_ok);
-		@(negedge clk);
-	        $write("RX:\texpected byte = %h\treceived byte = %h\n", expected_rx_data, rx_data);
-	end	
-	endtask
-
-
-	initial begin
-		$dumpfile("uart.vcd");
-		$dumpvars(0, uart);
-	end
-
-
-	//initial begin
-	//	sendTx;
-        //#10; $finish;
-	//end
-	initial begin
-		@(posedge rst_n);
-		@(posedge clk);
-		repeat(20) sendTx;
-		$finish;
-	end
-	
-	initial begin
-		@(posedge rst_n);
-		@(posedge clk);
-		repeat(20) sendRx;
-		$finish;
-	end
-
-	always #(CLK_CYCLE/2) clk=~clk;
-	initial begin
-		clk=0;
-		rx=1;
-		reset;
-	end
 endmodule
-
