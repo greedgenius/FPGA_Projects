@@ -1,0 +1,5 @@
+uart:
+	* add parity
+	* add define
+	* add stopbit size option
+	* add fork to end synthesis
