@@ -2,16 +2,17 @@
 
 module t_uart;
 
-	parameter CLK_CYCLE=10;
-	parameter UART_TX_WAIT = 500000000/115200;
+	parameter CLK_CYCLE=20;
+	parameter UART_TX_WAIT = 1000000000/115200;
 
 	// Inputs
         reg		clk,tx_send, rst_n;
 	reg	[7:0]	tx_data;
-
+	reg 		rx;
 	// Outputs
         wire		tx, tx_busy;
-        
+        wire	[7:0]	rx_data;
+	wire		rx_ok;
 	// Integers
 	integer		i;
 	
@@ -21,16 +22,33 @@ module t_uart;
 	
 	task sendTx; begin
         	tx_data=$random;
+	        $write("send byte =%h\t", tx_data);
 		@ (posedge clk); tx_send = 1;
 		@ (posedge clk); tx_send = 0;
-
-		for (i=0;i<50000000/1500;i=i+1)
-		begin
-			@ (posedge clk); 
-		end
-	        $write("send byte =%h\t", tx_data);
+		uart_decoder;
 	end
 	endtask
+	
+	
+	task sendRx; 
+		reg [7:0] send_rx_data;
+		begin
+		send_rx_data = $random;
+	        $write("rx byte =%h\t", send_rx_data);
+		rx = 1'b0;
+		#UART_TX_WAIT;
+		for ( i = 0; i < 8 ; i = i + 1 ) begin
+			rx = send_rx_data[i];
+			#UART_TX_WAIT;
+		end        
+		//uart_srx = 1'b0;
+		//#UART_TX_WAIT;
+		rx = 1'b1;	    
+    		rx_output_decode;
+		
+	end
+	endtask
+
 
 	task reset; begin
 		#10; rst_n=0;
@@ -38,9 +56,6 @@ module t_uart;
 	end
 	endtask
     
-    
-	always @ (posedge tx_send)
-		uart_decoder;
     
 
 	task uart_decoder;
@@ -51,7 +66,7 @@ module t_uart;
 	        // Wait for start bit
 	        while (tx == 1'b1)
 			@(tx);
-			#(UART_TX_WAIT + (UART_TX_WAIT/2));
+		#(UART_TX_WAIT + (UART_TX_WAIT/2));
 	
 	        for ( i = 0; i < 8 ; i = i + 1 ) begin
 	        	tx_byte[i] = tx;
@@ -70,14 +85,30 @@ module t_uart;
 	        	//$display("* USER UART returned to idle at time %d",$time);
 	        end
 	        // display the char
-	        $write("receive byte =%h", tx_byte);
+	        $write("tx receive byte =%h", tx_byte);
 	        //$write("receive byte =%h\tparity=%d\texpected=%d", tx_byte,tx_parity,~^tx_byte);
 		//if (tx_parity!= ~^tx_byte) $write("\t parity error!!!!!!\n");
 		//else $write("\n");
 		$write("\n");
 	end
 	endtask
-    
+ 	
+
+	
+	task rx_output_decode;
+	integer i;
+	reg [7:0] rx_byte;
+	//reg tx_parity;
+	begin
+	        // Wait for start bit
+	        @ (posedge rx_ok);
+		@(negedge clk);
+	        $write("rx receive byte =%h\n", rx_data);
+	end	
+	endtask
+	
+
+
 
 	initial begin
 		$dumpfile("uart.vcd");
@@ -90,14 +121,23 @@ module t_uart;
         //#10; $finish;
 	//end
 	initial begin
+		@(posedge rst_n);
+		@(posedge clk);
 		repeat(20) sendTx;
 		$finish;
 	end
-
+	
+	initial begin
+		@(posedge rst_n);
+		@(posedge clk);
+		repeat(20) sendRx;
+		$finish;
+	end
 
 	always #(CLK_CYCLE/2) clk=~clk;
 	initial begin
 		clk=0;
+		rx=1;
 		reset;
 	end
 endmodule
