@@ -22,10 +22,9 @@ module t_uart;
 	
 	task sendTx; begin
         	tx_data=$random;
-	        $write("send byte =%h\t", tx_data);
 		@ (posedge clk); tx_send = 1;
 		@ (posedge clk); tx_send = 0;
-		uart_decoder;
+		uart_decoder(tx_data);
 	end
 	endtask
 	
@@ -34,17 +33,14 @@ module t_uart;
 		reg [7:0] send_rx_data;
 		begin
 		send_rx_data = $random;
-	        $write("rx byte =%h\t", send_rx_data);
 		rx = 1'b0;
 		#UART_TX_WAIT;
 		for ( i = 0; i < 8 ; i = i + 1 ) begin
 			rx = send_rx_data[i];
 			#UART_TX_WAIT;
 		end        
-		//uart_srx = 1'b0;
-		//#UART_TX_WAIT;
 		rx = 1'b1;	    
-    		rx_output_decode;
+    		rx_output_decode(send_rx_data);
 		
 	end
 	endtask
@@ -59,6 +55,7 @@ module t_uart;
     
 
 	task uart_decoder;
+	input	[7:0]	expected_tx_data;
 	integer i;
 	reg [7:0] tx_byte;
 	//reg tx_parity;
@@ -85,17 +82,14 @@ module t_uart;
 	        	//$display("* USER UART returned to idle at time %d",$time);
 	        end
 	        // display the char
-	        $write("tx receive byte =%h", tx_byte);
-	        //$write("receive byte =%h\tparity=%d\texpected=%d", tx_byte,tx_parity,~^tx_byte);
-		//if (tx_parity!= ~^tx_byte) $write("\t parity error!!!!!!\n");
-		//else $write("\n");
-		$write("\n");
+	        $write("TX:\texpected byte = %h\treceived byte = %h\n", expected_tx_data, tx_byte);
 	end
 	endtask
  	
 
 	
 	task rx_output_decode;
+	input	[7:0]	expected_rx_data;
 	integer i;
 	reg [7:0] rx_byte;
 	//reg tx_parity;
@@ -103,11 +97,9 @@ module t_uart;
 	        // Wait for start bit
 	        @ (posedge rx_ok);
 		@(negedge clk);
-	        $write("rx receive byte =%h\n", rx_data);
+	        $write("RX:\texpected byte = %h\treceived byte = %h\n", expected_rx_data, rx_data);
 	end	
 	endtask
-	
-
 
 
 	initial begin
