@@ -3,3 +3,7 @@ uart:
 	* add define
 	* add stopbit size option
 	* add fork to end synthesis
+
+spi_receive
+	* modify testbench
+	* retest it
