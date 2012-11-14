@@ -1,9 +1,16 @@
 //UART module
 //Developed by F.M.Zhu
 
+`include "uart_global.v"
+
 module uart (clk, rst_n
 	, tx_data, tx_send, tx, tx_busy
 	, rx, rx_data, rx_ok
+`ifdef PARITY_ODD
+	, rx_error
+`elsif PARITY_EVEN
+	, rx_error
+`endif
 	);
 
 input		clk, rst_n;
@@ -16,6 +23,11 @@ output		tx_busy;
 input		rx;
 output	[7:0]	rx_data;
 output		rx_ok;
+`ifdef PARITY_ODD
+output		rx_error;
+`elsif PARITY_EVEN
+output		rx_error;
+`endif
 
 //registers and wires
 reg	[14:0]	tx_cnt, rx_cnt;
@@ -28,15 +40,27 @@ reg		tx;
 wire		tx_en, rx_en;
 
 
-//parameters
+//user configure parameters
 parameter CLK_FREQ		=	32'd50000000;
 parameter BAUD			=	115200;
+parameter NUM_DATA_BITS		=	8;
+parameter NUM_STOP_BITS		=	1;
+
+//generated parameter
+`ifdef PARITY_ODD
+parameter NUM_PARITY_BIT	=	1;
+`elsif PARITY_EVEN
+parameter NUM_PARITY_BIT	=	1;
+`else
+parameter NUM_PARITY_BIT	=	0;
+`endif
+
 parameter CNT_PER_BAUD		=	(CLK_FREQ+(BAUD/2))/BAUD;
 parameter DELAY_READ		=	CNT_PER_BAUD*3/2;	
-
-parameter BITS_PER_PACK		=	1+8+1; //1 start 8 data 1 stop
-parameter TX_START_BIT		=	4'd0;
-parameter TX_STOP_BIT		=	4'd9;
+parameter BITS_PER_PACK		=	1 + NUM_DATA_BITS + NUM_PARITY_BIT + NUM_STOP_BITS;	//1 is start bit 
+parameter TX_START_BIT		=	0;
+parameter TX_STOP_BIT		=	1 + NUM_DATA_BITS + NUM_PARITY_BIT;
+parameter TX_PARITY_BIT		=	1 + NUM_DATA_BITS;
  
 //////////////////////////////////////////////////////////
 //UART TRANSMITTER LOGIC
@@ -77,6 +101,13 @@ always @ (posedge clk) begin
 	case (bits_sent)
 		TX_START_BIT: 	begin tx_data_bit<=0; start_stop_parity<=0; end
 		TX_STOP_BIT: 	begin tx_data_bit<=0; start_stop_parity<=1; end
+
+`ifdef PARITY_ODD
+		TX_PARITY_BIT:	begin tx_data_bit<=0; start_stop_parity<=~^tx_data_reg; end
+`elsif PARITY_EVEN
+		TX_PARITY_BIT:	begin tx_data_bit<=0; start_stop_parity<=^tx_data_reg; end
+`endif
+
 		default: 	begin tx_data_bit<=1; end
 	endcase
 end
@@ -111,7 +142,6 @@ always @ (posedge clk) begin
 	rx_sr <= {rx_sr[2:0],rx};
 end
 
-
 reg	[3:0]	bits_received;
 //rx baud counter
 always @ (posedge clk or negedge rst_n) begin 
@@ -143,30 +173,46 @@ always @ (posedge clk or negedge rst_n) begin
 	end
 end
 
-
 reg	[7:0]	rx_data_reg;
+reg		rx_error_reg;
 //rx decode input 
 always @ (posedge clk or negedge rst_n) begin
-	if (~rst_n)
-		rx_data_reg <=0;
-	else if (bits_received>0 && bits_received < 9 && rx_en)
+	if (~rst_n) begin
+		rx_data_reg <= 0;
+		rx_error_reg <= 0;
+	end
+	else if (bits_received > 0 && bits_received < 1+NUM_DATA_BITS && rx_en) begin
 		rx_data_reg[bits_received-1] <= rx; 
+		rx_error_reg <= 0;
+	end
+`ifdef PARITY_ODD	
+	else if (bits_received == 1+NUM_DATA_BITS && rx != ~^rx_data_reg && rx_en)
+		rx_error_reg <= 1;
+`elsif PARITY_EVEN
+	else if (bits_received == 1+NUM_DATA_BITS && rx != ^rx_data_reg && rx_en)
+		rx_error_reg <= 1;
+`endif
 end
 
 reg	[7:0]	rx_data;
 reg		rx_ok;
+reg		rx_error;
 //rx data output
 always @ (posedge clk or negedge rst_n) begin
 	if (~rst_n) begin
 		rx_data <= 0;
+		rx_error <= 0;
 		rx_ok <= 0;
 	end
 	else if ((bits_received == BITS_PER_PACK-1) & rx_en) begin
 		rx_data <= rx_data_reg;
+		rx_error <= rx_error_reg;
 		rx_ok <= 1;
 	end
-	else
+	else begin
 		rx_ok <= 0;
+		rx_error <= 0;
+	end
 
 end
 //////////////////////////////////////////////////////////
