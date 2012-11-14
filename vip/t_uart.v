@@ -1,5 +1,7 @@
 `timescale 1ns / 1ps
 
+`include "uart_global.v"
+
 module t_uart;
 
 parameter CLK_CYCLE=20;
@@ -15,11 +17,11 @@ reg 		rx;
 wire		tx, tx_busy;
 wire	[7:0]	rx_data;
 wire		rx_ok;
-
+wire		rx_error;
 
 
 //Unit Under Test 
-uart uart(clk, rst_n, tx_data, tx_send, tx, tx_busy, rx, rx_data, rx_ok);
+uart uart(clk, rst_n, tx_data, tx_send, tx, tx_busy, rx, rx_data, rx_ok, rx_error);
 
 
 //Main Testbench
@@ -70,6 +72,15 @@ begin
 		rx = rx_data_sim[i];
 		#UART_TX_WAIT;
 	end        
+
+`ifdef PARITY_ODD
+	rx = ~^rx_data_sim;
+	#UART_TX_WAIT;
+`elsif PARITY_EVEN
+	rx = ^rx_data_sim;
+	#UART_TX_WAIT;
+`endif
+
 	rx = 1'b1;	    
 	rx_compare_module_result(rx_data_sim);
 	
@@ -84,9 +95,17 @@ begin
 	@ (posedge rx_ok);
 	@ (negedge clk);
 	if (rx_data_sim != rx_data) 
-		$write("RX MISMATCH:\texpected = %h\tmodule got = %h\n", rx_data_sim, rx_data);
+		$display ("RX MISMATCH:\texpected = %h\tmodule got = %h", rx_data_sim, rx_data);
+`ifdef PARITY_ODD
+	else if (rx_error == 1)
+		$display ("RX ERROR:\tparity fail");
+`elsif PARITY_EVEN
+	else if (rx_error == 1)
+		$display ("RX ERROR:\tparity fail");
+`endif
 	else
-		$write("RX PASS: byte = %h\n", rx_data_sim);
+		$display ("RX PASS: byte = %h", rx_data_sim);
+	#UART_TX_WAIT;
 end	
 endtask
 
@@ -106,27 +125,45 @@ endtask
 task tx_compare_module_result;
 input	[7:0]	tx_data_set;
 integer i;
-reg [7:0] tx_data_decoded; //module tx output decoded by testbench
+reg	[7:0]	tx_data_decoded; //module tx output decoded by testbench
+reg		tx_parity;
 begin
         while (tx == 1'b1)
 		@(tx);
-	#(UART_TX_WAIT + (UART_TX_WAIT/2));
+		#(UART_TX_WAIT + (UART_TX_WAIT/2));
 
         for ( i = 0; i < 8 ; i = i + 1 ) begin
         	tx_data_decoded[i] = tx;
         	#UART_TX_WAIT;
         end
 	
+`ifdef PARITY_ODD
+	tx_parity=tx;
+	#UART_TX_WAIT;
+`elsif PARITY_EVEN
+	tx_parity=tx;
+	#UART_TX_WAIT;
+`endif
+	
         if (tx == 1'b0) begin
-        	$display("* WARNING: user stop bit not received when expected at time %d__", $time);
+        	$display("* TX ERROR:\tstop bit not at time %d ns", $time);
         	while (tx == 1'b0)
         	@(tx);
         end
 
+
+
         if (tx_data_set!=tx_data_decoded) 
-		$write("TX MISMATCH:\texpected = %h\tmodule gen = %h\n", tx_data_set, tx_data_decoded);
+		$display ("TX MISMATCH:\texpected = %h\tmodule gen = %h at time %d ns", tx_data_set, tx_data_decoded, $time);
+`ifdef PARITY_ODD
+	else if (tx_parity!= ~^tx_data_decoded)
+		$display ("TX ERROR:\todd parity fail at time %d ns", $time);
+`elsif PARITY_EVEN
+	else if (tx_parity!= ^tx_data_decoded)
+		$display ("TX ERROR:\teven parity fail at time %d ns", $time);
+`endif
 	else
-		$write("TX PASS: byte = %h\n", tx_data_decoded);
+		$display("TX PASS: byte = %h", tx_data_decoded);
 		
 end
 endtask

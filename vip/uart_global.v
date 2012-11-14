@@ -1,0 +1,1 @@
+../ip/uart_global.v
