@@ -21,7 +21,15 @@ wire		rx_error;
 
 
 //Unit Under Test 
-uart uart(clk, rst_n, tx_data, tx_send, tx, tx_busy, rx, rx_data, rx_ok, rx_error);
+uart uart (clk, rst_n
+	, tx_data, tx_send, tx, tx_busy
+	, rx, rx_data, rx_ok
+`ifdef PARITY_ODD
+	, rx_error
+`elsif PARITY_EVEN
+	, rx_error
+`endif
+	);
 
 
 //Main Testbench
