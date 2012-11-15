@@ -85,7 +85,7 @@ very-clean: xilinx-clean verilog-clean
 #TBOUTPUT = spi_receive.vcd#waves.lxt	#THIS NEEDS TO MATCH THE OUTPUT FILE
 SRC = uart.v
 TESTBENCH = t_uart.v
-TBOUTPUT = uart.vcd#waves.lxt	#THIS NEEDS TO MATCH THE OUTPUT FILE
+TBOUTPUT = uart.vcd	#THIS NEEDS TO MATCH THE OUTPUT FILE
 			#FROM YOUR TESTBENCH
 ###############################################################################
 # BE CAREFUL WHEN CHANGING ITEMS BELOW THIS LINE
