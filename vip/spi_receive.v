@@ -163,7 +163,7 @@ if(enShiftCounter==1)
 	temp2<={temp2[14:0],sdata2};
 	shiftCounter<=shiftCounter+1;
 	data1<=data1;
-   data2<=data2;
+	data2<=data2;
 
 	end
 else if (enParalelLoad==1)
@@ -180,7 +180,7 @@ else
 	temp2<=temp2;
 	shiftCounter<=4'b0000;
 	data1<=data1;
-   data2<=data2;
+	data2<=data2;
 	end
 end
 

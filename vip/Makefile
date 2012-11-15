@@ -80,12 +80,12 @@ very-clean: xilinx-clean verilog-clean
 # CHANGE THESE THREE LINES FOR YOUR DESIGN
 #
 #TOOL INPUT
-#SRC = spi_receive.v
-#TESTBENCH = t_spi_receive.v
-#TBOUTPUT = spi_receive.vcd#waves.lxt	#THIS NEEDS TO MATCH THE OUTPUT FILE
-SRC = uart.v
-TESTBENCH = t_uart.v
-TBOUTPUT = uart.vcd	#THIS NEEDS TO MATCH THE OUTPUT FILE
+SRC = spi_receive.v
+TESTBENCH = t_spi_receive.v
+TBOUTPUT = spi_receive.vcd#waves.lxt	#THIS NEEDS TO MATCH THE OUTPUT FILE
+#SRC = uart.v
+#TESTBENCH = t_uart.v
+#TBOUTPUT = uart.vcd	#THIS NEEDS TO MATCH THE OUTPUT FILE
 			#FROM YOUR TESTBENCH
 ###############################################################################
 # BE CAREFUL WHEN CHANGING ITEMS BELOW THIS LINE
