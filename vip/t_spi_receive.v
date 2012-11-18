@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 module t_spi_receive;
     
-    parameter CLK_CYCLE=10;
+    parameter CLK_CYCLE=20;
 
 	// Inputs
         reg         clk,rst,sdata1,sdata2,start;
@@ -34,38 +34,33 @@ module t_spi_receive;
         done
         );
 	
-    task reset; begin
-    #10; rst=1;
-    #10; rst=0;
-    end
-    endtask
+	task reset; begin
+	#10; rst=1;
+	#10; rst=0;
+	end
+	endtask
 
-    initial start=0;
-    task randin; begin
-        d1=16'hf05a;
-        d2=$random;
-        @ (posedge clk); @ (posedge clk); @ (posedge clk); @ (posedge clk); 
-        @ (posedge clk); @ (posedge clk); @ (posedge clk); @ (posedge clk); 
-        @ (posedge clk); @ (posedge clk); @ (posedge clk); @ (posedge clk); 
-        @ (posedge clk); @ (posedge clk); @ (posedge clk); @ (posedge clk); 
-        @ (posedge clk); @ (posedge clk); @ (posedge clk); @ (posedge clk); 
-        @ (posedge clk); 
-        @ (posedge clk); start = 1;
-        for (i=0;i<16;i=i+1)
-        begin
-        @ (posedge clk); @ (posedge clk); @ (posedge clk); 
-            @ (posedge clk); #1; start = 0;
-            sdata1 = d1>>i;
-            sdata2 = d2>>i; 
-        end
-    end
-    endtask
+	initial start=0;
+	task randin; begin
+		d1=16'hf05a;
+		d2=$random;
+		#100;
+		@ (posedge clk); start = 1;
+		for (i=0;i<16;i=i+1)
+		begin
+		@ (posedge clk); @ (posedge clk); @ (posedge clk); 
+			@ (posedge clk); #1; start = 0;
+			sdata1 = d1>>i;
+			sdata2 = d2>>i; 
+		end
+	end
+	endtask
 
-    initial
-     begin
-     $dumpfile("spi_receive.vcd");
-     $dumpvars(0,t_spi_receive.d1,t_spi_receive.d2,spi_receive);
-     end
+	initial
+	begin
+	$dumpfile("spi_receive.vcd");
+	$dumpvars(0,t_spi_receive.d1,t_spi_receive.d2,spi_receive);
+	end
 
 
 	initial begin
@@ -82,7 +77,7 @@ module t_spi_receive;
 	end
 
 
-    always #(CLK_CYCLE/2) clk=~clk;
+	always #(CLK_CYCLE/2) clk=~clk;
     
 
       

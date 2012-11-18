@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html b:version="2" class="v2" dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:b="http://www.google.com/2005/gml/b" xmlns:data="http://www.google.com/2005/gml/data" xmlns:expr="http://www.google.com/2005/gml/expr"><head>
+<meta content="IE=EmulateIE7" http-equiv="X-UA-Compatible">
+<meta content="width=1100" name="viewport">
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<script async="" src="communicating-with-basys2-using-adept_files/cbgapi.loaded_1"></script><script async="" src="communicating-with-basys2-using-adept_files/cbgapi.loaded_0"></script><script type="text/javascript">(function() { var a=window,b="jstiming",d="tick";var e=function(c){this.t={};this.tick=function(c,p,h){h=void 0!=h?h:(new Date).getTime();this.t[c]=[h,p]};this[d]("start",null,c)},f=new e;a.jstiming={Timer:e,load:f};if(a.performance&&a.performance.timing){var g=a.performance.timing,j=a[b].load,k=g.navigationStart,l=g.responseStart;0<k&&l>=k&&(j[d]("_wtsrt",void 0,k),j[d]("wtsrt_","_wtsrt",l),j[d]("tbsd_","wtsrt_"))}
+try{var m=null;a.chrome&&a.chrome.csi&&(m=Math.floor(a.chrome.csi().pageT),j&&0<k&&(j[d]("_tbnd",void 0,a.chrome.csi().startE),j[d]("tbnd_","_tbnd",k)));null==m&&a.gtbExternal&&(m=a.gtbExternal.pageT());null==m&&a.external&&(m=a.external.pageT,j&&0<k&&(j[d]("_tbnd",void 0,a.external.startE),j[d]("tbnd_","_tbnd",k)));m&&(a[b].pt=m)}catch(n){};a.tickAboveFold=function(c){var i=0;if(c.offsetParent){do i+=c.offsetTop;while(c=c.offsetParent)}c=i;750>=c&&a[b].load[d]("aft")};var q=!1;function r(){q||(q=!0,a[b].load[d]("firstScrollTime"))}a.addEventListener?a.addEventListener("scroll",r,!1):a.attachEvent("onscroll",r);
+ })();</script>
+<meta content="true" name="MSSmartTagsPreventParsing">
+<meta content="blogger" name="generator">
+<link href="http://sadgeeksinsnow.blogspot.tw/favicon.ico" rel="icon" type="image/x-icon">
+<link href="http://sadgeeksinsnow.blogspot.com/2012/09/communicating-with-basys2-using-adept.html" rel="canonical">
+<link rel="alternate" type="application/atom+xml" title="Sad Geeks In Snow - Atom" href="http://sadgeeksinsnow.blogspot.com/feeds/posts/default">
+<link rel="alternate" type="application/rss+xml" title="Sad Geeks In Snow - RSS" href="http://sadgeeksinsnow.blogspot.com/feeds/posts/default?alt=rss">
+<link rel="service.post" type="application/atom+xml" title="Sad Geeks In Snow - Atom" href="http://www.blogger.com/feeds/595472175096221442/posts/default">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.blogger.com/rsd.g?blogID=595472175096221442">
+<link rel="alternate" type="application/atom+xml" title="Sad Geeks In Snow - Atom" href="http://sadgeeksinsnow.blogspot.com/feeds/7508926803578867367/comments/default">
+<!--[if IE]><script type="text/javascript" src="//www.blogger.com/static/v1/jsbin/2627287098-ieretrofit.js"></script>
+<![endif]-->
+<link href="https://plus.google.com/107868869331863912741" rel="publisher">
+<!--[if IE]> <script> (function() { var html5 = ("abbr,article,aside,audio,canvas,datalist,details," + "figure,footer,header,hgroup,mark,menu,meter,nav,output," + "progress,section,time,video").split(','); for (var i = 0; i < html5.length; i++) { document.createElement(html5[i]); } try { document.execCommand('BackgroundImageCache', false, true); } catch(e) {} })(); </script> <![endif]-->
+<title>Sad Geeks In Snow: Communicating with the Basys2 using the Adept SDK</title>
+<link type="text/css" rel="stylesheet" href="communicating-with-basys2-using-adept_files/4219271310-widget_css_2_bundle.css">
+<link type="text/css" rel="stylesheet" href="communicating-with-basys2-using-adept_files/authorization.css">
+<style id="page-skin-1" type="text/css"><!--
+/*
+-----------------------------------------------
+Blogger Template Style
+Name:     Ethereal
+Designer: Jason Morrow
+URL:      jasonmorrow.etsy.com
+----------------------------------------------- */
+/* Variable definitions
+====================
+<Variable name="keycolor" description="Main Color" type="color" default="#000000"/>
+<Group description="Body Text" selector="body">
+<Variable name="body.font" description="Font" type="font"
+default="normal normal 13px Arial, Tahoma, Helvetica, FreeSans, sans-serif"/>
+<Variable name="body.text.color" description="Text Color" type="color" default="#666666"/>
+</Group>
+<Group description="Background" selector=".body-fauxcolumns-outer">
+<Variable name="body.background.color" description="Outer Background" type="color" default="#fb5e53"/>
+<Variable name="content.background.color" description="Main Background" type="color" default="#ffffff"/>
+<Variable name="body.border.color" description="Border Color" type="color" default="#fb5e53"/>
+</Group>
+<Group description="Links" selector=".main-inner">
+<Variable name="link.color" description="Link Color" type="color" default="#2198a6"/>
+<Variable name="link.visited.color" description="Visited Color" type="color" default="#4d469c"/>
+<Variable name="link.hover.color" description="Hover Color" type="color" default="#5a4973"/>
+</Group>
+<Group description="Blog Title" selector=".header h1">
+<Variable name="header.font" description="Font" type="font"
+default="normal normal 60px Times, 'Times New Roman', FreeSerif, serif"/>
+<Variable name="header.text.color" description="Text Color" type="color" default="#ff8b8b"/>
+</Group>
+<Group description="Blog Description" selector=".header .description">
+<Variable name="description.text.color" description="Description Color" type="color"
+default="#666666"/>
+</Group>
+<Group description="Tabs Text" selector=".tabs-inner .widget li a">
+<Variable name="tabs.font" description="Font" type="font"
+default="normal normal 12px Arial, Tahoma, Helvetica, FreeSans, sans-serif"/>
+<Variable name="tabs.selected.text.color" description="Selected Color" type="color" default="#ffffff"/>
+<Variable name="tabs.text.color" description="Text Color" type="color" default="#666666"/>
+</Group>
+<Group description="Tabs Background" selector=".tabs-outer .PageList">
+<Variable name="tabs.selected.background.color" description="Selected Color" type="color" default="#ffa183"/>
+<Variable name="tabs.background.color" description="Background Color" type="color" default="#ffdfc7"/>
+<Variable name="tabs.border.bevel.color" description="Bevel Color" type="color" default="#fb5e53"/>
+</Group>
+<Group description="Post Title" selector="h3.post-title, h4, h3.post-title a">
+<Variable name="post.title.font" description="Font" type="font"
+default="normal normal 24px Times, Times New Roman, serif"/>
+<Variable name="post.title.text.color" description="Text Color" type="color" default="#2198a6"/>
+</Group>
+<Group description="Gadget Title" selector="h2">
+<Variable name="widget.title.font" description="Title Font" type="font"
+default="normal bold 12px Arial, Tahoma, Helvetica, FreeSans, sans-serif"/>
+<Variable name="widget.title.text.color" description="Text Color" type="color" default="#666666"/>
+<Variable name="widget.title.border.bevel.color" description="Bevel Color" type="color" default="#dbdbdb"/>
+</Group>
+<Group description="Accents" selector=".main-inner .widget">
+<Variable name="widget.alternate.text.color" description="Alternate Color" type="color" default="#cccccc"/>
+<Variable name="widget.border.bevel.color" description="Bevel Color" type="color" default="#dbdbdb"/>
+</Group>
+<Variable name="body.background" description="Body Background" type="background"
+color="#2764e3" default="$(color) none repeat-x scroll top left"/>
+<Variable name="body.background.gradient" description="Body Gradient Cap" type="url"
+default="none"/>
+<Variable name="body.background.imageBorder" description="Body Image Border" type="url"
+default="none"/>
+<Variable name="body.background.imageBorder.position.left" description="Body Image Border Left" type="length"
+default="0"/>
+<Variable name="body.background.imageBorder.position.right" description="Body Image Border Right" type="length"
+default="0"/>
+<Variable name="header.background.gradient" description="Header Background Gradient" type="url" default="none"/>
+<Variable name="content.background.gradient" description="Content Gradient" type="url" default="none"/>
+<Variable name="link.decoration" description="Link Decoration" type="string" default="none"/>
+<Variable name="link.visited.decoration" description="Link Visited Decoration" type="string" default="none"/>
+<Variable name="link.hover.decoration" description="Link Hover Decoration" type="string" default="underline"/>
+<Variable name="widget.padding.top" description="Widget Padding Top" type="length" default="15px"/>
+<Variable name="date.space" description="Date Space" type="length" default="15px"/>
+<Variable name="post.first.padding.top" description="First Post Padding Top" type="length" default="0"/>
+<Variable name="startSide" description="Side where text starts in blog language" type="automatic" default="left"/>
+<Variable name="endSide" description="Side where text ends in blog language" type="automatic" default="right"/>
+*/
+/* Content
+----------------------------------------------- */
+body {
+font: normal normal 13px Arial, Tahoma, Helvetica, FreeSans, sans-serif;
+color: #666666;
+background: #2764e3 none repeat-x scroll top left;
+}
+html body .content-outer {
+min-width: 0;
+max-width: 100%;
+width: 100%;
+}
+a:link {
+text-decoration: none;
+color: #5a4973;
+}
+a:visited {
+text-decoration: none;
+color: #939c46;
+}
+a:hover {
+text-decoration: underline;
+color: #cd8e37;
+}
+.main-inner {
+padding-top: 15px;
+}
+.body-fauxcolumn-outer {
+background: transparent url(http://themes.googleusercontent.com/image?id=0BwVBOzw_-hbMNzE5NTg3YzUtMGU0Mi00OWQ3LTg2NjUtODk1OGVlMjg1YjZj) repeat-x scroll top center;
+}
+.content-fauxcolumns .fauxcolumn-inner {
+background: #ffffff none repeat-x scroll top left;
+border-left: 1px solid #4c73d8;
+border-right: 1px solid #4c73d8;
+}
+/* Flexible Background
+----------------------------------------------- */
+.content-fauxcolumn-outer .fauxborder-left {
+width: 100%;
+padding-left: 0;
+margin-left: -0;
+background-color: transparent;
+background-image: none;
+background-repeat: no-repeat;
+background-position: left top;
+}
+.content-fauxcolumn-outer .fauxborder-right {
+margin-right: -0;
+width: 0;
+background-color: transparent;
+background-image: none;
+background-repeat: no-repeat;
+background-position: right top;
+}
+/* Columns
+----------------------------------------------- */
+.content-inner {
+padding: 0;
+}
+/* Header
+----------------------------------------------- */
+.header-inner {
+padding: 27px 0 3px;
+}
+.header-inner .section {
+margin: 0 35px;
+}
+.Header h1 {
+font: normal normal 60px Times, 'Times New Roman', FreeSerif, serif;
+color: #75cdff;
+}
+.Header h1 a {
+color: #75cdff;
+}
+.Header .description {
+font-size: 115%;
+color: #666666;
+}
+.header-inner .Header .titlewrapper,
+.header-inner .Header .descriptionwrapper {
+padding-left: 0;
+padding-right: 0;
+margin-bottom: 0;
+}
+/* Tabs
+----------------------------------------------- */
+.tabs-outer {
+position: relative;
+background: transparent;
+}
+.tabs-cap-top, .tabs-cap-bottom {
+position: absolute;
+width: 100%;
+}
+.tabs-cap-bottom {
+bottom: 0;
+}
+.tabs-inner {
+padding: 0;
+}
+.tabs-inner .section {
+margin: 0 35px;
+}
+*+html body .tabs-inner .widget li {
+padding: 1px;
+}
+.PageList {
+border-bottom: 1px solid #8392ed;
+}
+.tabs-inner .widget li.selected a,
+.tabs-inner .widget li a:hover {
+position: relative;
+-moz-border-radius-topleft: 5px;
+-moz-border-radius-topright: 5px;
+-webkit-border-top-left-radius: 5px;
+-webkit-border-top-right-radius: 5px;
+-goog-ms-border-top-left-radius: 5px;
+-goog-ms-border-top-right-radius: 5px;
+border-top-left-radius: 5px;
+border-top-right-radius: 5px;
+background: #8392ed none ;
+color: #5a4973;
+}
+.tabs-inner .widget li a {
+display: inline-block;
+margin: 0;
+margin-right: 1px;
+padding: .65em 1.5em;
+font: normal normal 12px Arial, Tahoma, Helvetica, FreeSans, sans-serif;
+color: #5a4973;
+background-color: #b7c0ff;
+-moz-border-radius-topleft: 5px;
+-moz-border-radius-topright: 5px;
+-webkit-border-top-left-radius: 5px;
+-webkit-border-top-right-radius: 5px;
+-goog-ms-border-top-left-radius: 5px;
+-goog-ms-border-top-right-radius: 5px;
+border-top-left-radius: 5px;
+border-top-right-radius: 5px;
+}
+/* Headings
+----------------------------------------------- */
+h2 {
+font: normal bold 12px Verdana, Geneva, sans-serif;
+color: #666666;
+}
+/* Widgets
+----------------------------------------------- */
+.main-inner .column-left-inner {
+padding: 0 0 0 20px;
+}
+.main-inner .column-left-inner .section {
+margin-right: 0;
+}
+.main-inner .column-right-inner {
+padding: 0 20px 0 0;
+}
+.main-inner .column-right-inner .section {
+margin-left: 0;
+}
+.main-inner .section {
+padding: 0;
+}
+.main-inner .widget {
+padding: 0 0 15px;
+margin: 20px 0;
+border-bottom: 1px solid #f9f9f9;
+}
+.main-inner .widget h2 {
+margin: 0;
+padding: .6em 0 .5em;
+}
+.footer-inner .widget h2 {
+padding: 0 0 .4em;
+}
+.main-inner .widget h2 + div, .footer-inner .widget h2 + div {
+padding-top: 15px;
+}
+.main-inner .widget .widget-content {
+margin: 0;
+padding: 15px 0 0;
+}
+.main-inner .widget ul, .main-inner .widget #ArchiveList ul.flat {
+margin: -15px -15px -15px;
+padding: 0;
+list-style: none;
+}
+.main-inner .sidebar .widget h2 {
+border-bottom: 1px solid transparent;
+}
+.main-inner .widget #ArchiveList {
+margin: -15px 0 0;
+}
+.main-inner .widget ul li, .main-inner .widget #ArchiveList ul.flat li {
+padding: .5em 15px;
+text-indent: 0;
+}
+.main-inner .widget #ArchiveList ul li {
+padding-top: .25em;
+padding-bottom: .25em;
+}
+.main-inner .widget ul li:first-child, .main-inner .widget #ArchiveList ul.flat li:first-child {
+border-top: none;
+}
+.main-inner .widget ul li:last-child, .main-inner .widget #ArchiveList ul.flat li:last-child {
+border-bottom: none;
+}
+.main-inner .widget .post-body ul {
+padding: 0 2.5em;
+margin: .5em 0;
+list-style: disc;
+}
+.main-inner .widget .post-body ul li {
+padding: 0.25em 0;
+margin-bottom: .25em;
+color: #666666;
+border: none;
+}
+.footer-inner .widget ul {
+padding: 0;
+list-style: none;
+}
+.widget .zippy {
+color: #666666;
+}
+/* Posts
+----------------------------------------------- */
+.main.section {
+margin: 0 20px;
+}
+body .main-inner .Blog {
+padding: 0;
+background-color: transparent;
+border: none;
+}
+.main-inner .widget h2.date-header {
+border-bottom: 1px solid transparent;
+}
+.date-outer {
+position: relative;
+margin: 15px 0 20px;
+}
+.date-outer:first-child {
+margin-top: 0;
+}
+.date-posts {
+clear: both;
+}
+.post-outer, .inline-ad {
+border-bottom: 1px solid #f9f9f9;
+padding: 30px 0;
+}
+.post-outer {
+padding-bottom: 10px;
+}
+.post-outer:first-child {
+padding-top: 0;
+border-top: none;
+}
+.post-outer:last-child, .inline-ad:last-child {
+border-bottom: none;
+}
+.post-body img {
+padding: 8px;
+}
+h3.post-title, h4 {
+font: normal normal 24px Times, Times New Roman, serif;
+color: #75cdff;
+}
+h3.post-title a {
+font: normal normal 24px Times, Times New Roman, serif;
+color: #75cdff;
+text-decoration: none;
+}
+h3.post-title a:hover {
+color: #cd8e37;
+text-decoration: underline;
+}
+.post-header {
+margin: 0 0 1.5em;
+}
+.post-body {
+line-height: 1.4;
+}
+.post-footer {
+margin: 1.5em 0 0;
+}
+#blog-pager {
+padding: 15px;
+}
+.blog-s, .post-feeds {
+margin: 1em 0;
+text-align: center;
+}
+.post-outer .comments {
+margin-top: 2em;
+}
+/* Footer
+----------------------------------------------- */
+.footer-inner {
+padding: 30px 0;
+overflow: hidden;
+}
+
+--></style>
+<style id="template-skin-1" type="text/css"><!--
+body {
+min-width: 860px;
+}
+.content-outer, .content-fauxcolumn-outer, .region-inner {
+min-width: 860px;
+max-width: 860px;
+_width: 860px;
+}
+.main-inner .columns {
+padding-left: 0px;
+padding-right: 260px;
+}
+.main-inner .fauxcolumn-center-outer {
+left: 0px;
+right: 260px;
+/* IE6 does not respect left and right together */
+_width: expression(this.parentNode.offsetWidth -
+parseInt("0px") -
+parseInt("260px") + 'px');
+}
+.main-inner .fauxcolumn-left-outer {
+width: 0px;
+}
+.main-inner .fauxcolumn-right-outer {
+width: 260px;
+}
+.main-inner .column-left-outer {
+width: 0px;
+right: 100%;
+margin-left: -0px;
+}
+.main-inner .column-right-outer {
+width: 260px;
+margin-right: -260px;
+}
+#layout {
+min-width: 0;
+}
+#layout .content-outer {
+min-width: 0;
+width: 800px;
+}
+#layout .region-inner {
+min-width: 0;
+width: auto;
+}
+--></style>
+<script type="text/javascript">var a=navigator,b="userAgent",c="indexOf",f="&m=1",g="(^|&)m=",h="?",i="?m=1";function j(){var d=window.location.href,e=d.split(h);switch(e.length){case 1:return d+i;case 2:return 0<=e[1].search(g)?null:d+f;default:return null}}if(-1!=a[b][c]("Mobile")&&-1!=a[b][c]("WebKit")&&-1==a[b][c]("iPad")||-1!=a[b][c]("Opera Mini")||-1!=a[b][c]("IEMobile")){var k=j();k&&window.location.replace(k)};
+</script><script type="text/javascript">
+if (window.jstiming) window.jstiming.load.tick('headEnd');
+</script><script src="communicating-with-basys2-using-adept_files/google_top_exp.js" type="text/javascript"></script><style>.gc-bubbleDefault{text-align:left;padding:0 !important;margin:0 !important;border:0 !important;table-layout:auto !important}.gc-reset{border:0 !important;padding:0 !important;margin:0 !important;text-align:left}.pls-bubbleTop{border-bottom:1px solid #ccc !important}.pls-topTail,.pls-vertShimLeft,.pls-contentLeft{background-image:url(//ssl.gstatic.com/s2/oz/images/stars/po/bubblev1/border_3.gif) !important}.pls-topTail{background-repeat:repeat-x !important;background-position:bottom !important}.pls-vertShim{background-color:#fff !important;text-align:right}.pls-vertShimLeft{background-repeat:repeat-y !important;background-position:right !important;height:4px}.pls-vertShimRight{height:4px}.pls-confirm-container .pls-vertShim{background-color:#fff3c2 !important}.pls-contentWrap{background-color:#fff !important;position:relative !important;vertical-align:top}.pls-contentLeft{background-repeat:repeat-y;background-position:right;vertical-align:top}.pls-dropRight{background-image:url(//ssl.gstatic.com/s2/oz/images/stars/po/bubblev1/bubbleDropR_3.png) !important;background-repeat:repeat-y !important;vertical-align:top}.pls-vert,.pls-tailleft,.pls-dropTR .pls-dropBR,.pls-dropBL,.pls-vert img{vertical-align:top}.pls-dropBottom{background-image:url(//ssl.gstatic.com/s2/oz/images/stars/po/bubblev1/bubbleDropB_3.png) !important;background-repeat:repeat-x !important;width:100%;vertical-align:top}.pls-topLeft{background:inherit !important;text-align:right;vertical-align:bottom}.pls-topRight{background:inherit !important;text-align:left;vertical-align:bottom}.pls-bottomLeft{background:inherit !important;text-align:right}.pls-bottomRight{background:inherit !important;text-align:left;vertical-align:top}.pls-tailtop,.pls-tailright,.pls-tailbottom,.pls-tailleft{display:none;position:relative}.pls-tailbottom,.pls-tailtop,.pls-tailright,.pls-tailleft,.pls-dropTR,.pls-dropBR,.pls-dropBL{background-image:url(//ssl.gstatic.com/s2/oz/images/stars/po/bubblev1/bubbleSprite_3.png) !important;background-repeat:no-repeat}.pls-tailbottom{background-position:-23px 0}.pls-confirm-container .pls-tailbottom{background-position:-23px -10px}.pls-tailtop{background-position:-19px -20px}.pls-tailright{background-position:0 0}.pls-tailleft{background-position:-10px 0}.pls-tailtop{vertical-align:top}.gc-bubbleDefault td{line-height:0;font-size:0}.pls-topLeft img,.pls-topRight img,.pls-tailbottom{vertical-align:bottom}.pls-bottomLeft img,.bubbleDropTR,.pls-dropBottomL img,.pls-dropBottom img,.pls-dropBottomR img,.pls-bottomLeft{vertical-align:top}.pls-dropTR{background-position:0 -22px}.pls-dropBR{background-position:0 -27px}.pls-dropBL{background-position:0 -16px}.pls-spacertop,.pls-spacerright,.pls-spacerbottom,.pls-spacerleft{position:static !important}.pls-spinner{bottom:0;position:absolute;left:0;margin:auto;right:0;top:0}</style></head>
+<body class="">
+<div class="navbar section" id="navbar"><div class="widget Navbar" id="Navbar1"><script gapi_processed="true" src="communicating-with-basys2-using-adept_files/plusone.js" async="" type="text/javascript"></script><script type="text/javascript">
+    function setAttributeOnload(object, attribute, val) {
+      if(window.addEventListener) {
+        window.addEventListener('load',
+          function(){ object[attribute] = val; }, false);
+      } else {
+        window.attachEvent('onload', function(){ object[attribute] = val; });
+      }
+    }
+  </script>
+<div id="navbar-iframe-container"><iframe src="communicating-with-basys2-using-adept_files/navbar.html" name="navbar-iframe" id="navbar-iframe" vspace="0" tabindex="0" style="" marginwidth="0" marginheight="0" hspace="0" allowtransparency="true" frameborder="0" scrolling="no" width="100%"></iframe></div>
+<script gapi_processed="true" type="text/javascript" src="communicating-with-basys2-using-adept_files/plusone.js"></script>
+<script type="text/javascript">
+        gapi.load("iframes-styles-bubble", function() {
+          if (window.iframes && iframes.open) {
+            iframes.open(
+                '//www.blogger.com/navbar.g?targetBlogID\075595472175096221442\46blogName\75Sad+Geeks+In+Snow\46publishMode\75PUBLISH_MODE_BLOGSPOT\46navbarType\75LIGHT\46layoutType\75LAYOUTS\46searchRoot\75http://sadgeeksinsnow.blogspot.com/search\46blogLocale\75en\46v\0752\46homepageUrl\75http://sadgeeksinsnow.blogspot.com/\46targetPostID\0757508926803578867367\46blogPostOrPageUrl\75http://sadgeeksinsnow.blogspot.com/2012/09/communicating-with-basys2-using-adept.html\46vt\758504644416751172134',
+                {
+                  container: "navbar-iframe-container",
+                  id: "navbar-iframe"
+                },
+                {
+                });
+          }
+        });
+      </script><script type="text/javascript">
+(function() {
+var script = document.createElement('script');
+script.type = 'text/javascript';
+script.src = '//pagead2.googlesyndication.com/pagead/js/google_top_exp.js';
+var head = document.getElementsByTagName('head')[0];
+if (head) {
+head.appendChild(script);
+}})();
+</script>
+</div></div>
+<div class="body-fauxcolumns">
+<div class="fauxcolumn-outer body-fauxcolumn-outer">
+<div class="cap-top">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+<div class="fauxborder-left">
+<div class="fauxborder-right"></div>
+<div class="fauxcolumn-inner">
+</div>
+</div>
+<div class="cap-bottom">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+</div>
+</div>
+<div class="content">
+<div class="content-fauxcolumns">
+<div class="fauxcolumn-outer content-fauxcolumn-outer">
+<div class="cap-top">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+<div class="fauxborder-left">
+<div class="fauxborder-right"></div>
+<div class="fauxcolumn-inner">
+</div>
+</div>
+<div class="cap-bottom">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+</div>
+</div>
+<div class="content-outer">
+<div class="content-cap-top cap-top">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+<div class="fauxborder-left content-fauxborder-left">
+<div class="fauxborder-right content-fauxborder-right"></div>
+<div class="content-inner">
+<header>
+<div class="header-outer">
+<div class="header-cap-top cap-top">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+<div class="fauxborder-left header-fauxborder-left">
+<div class="fauxborder-right header-fauxborder-right"></div>
+<div class="region-inner header-inner">
+<div class="header section" id="header"><div class="widget Header" id="Header1">
+<div id="header-inner">
+<div class="titlewrapper">
+<h1 class="title">
+<a href="http://sadgeeksinsnow.blogspot.tw/">Sad Geeks In Snow</a>
+</h1>
+</div>
+<div class="descriptionwrapper">
+<p class="description"><span>Feed your Techno-Monster.</span></p>
+</div>
+</div>
+</div></div>
+</div>
+</div>
+<div class="header-cap-bottom cap-bottom">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+</div>
+</header>
+<div class="tabs-outer">
+<div class="tabs-cap-top cap-top">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+<div class="fauxborder-left tabs-fauxborder-left">
+<div class="fauxborder-right tabs-fauxborder-right"></div>
+<div class="region-inner tabs-inner">
+<div class="tabs section" id="crosscol"></div>
+<div class="tabs section" id="crosscol-overflow"></div>
+</div>
+</div>
+<div class="tabs-cap-bottom cap-bottom">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+</div>
+<div class="main-outer">
+<div class="main-cap-top cap-top">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+<div class="fauxborder-left main-fauxborder-left">
+<div class="fauxborder-right main-fauxborder-right"></div>
+<div class="region-inner main-inner">
+<div class="columns fauxcolumns">
+<div class="fauxcolumn-outer fauxcolumn-center-outer">
+<div class="cap-top">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+<div class="fauxborder-left">
+<div class="fauxborder-right"></div>
+<div class="fauxcolumn-inner">
+</div>
+</div>
+<div class="cap-bottom">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+</div>
+<div class="fauxcolumn-outer fauxcolumn-left-outer">
+<div class="cap-top">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+<div class="fauxborder-left">
+<div class="fauxborder-right"></div>
+<div class="fauxcolumn-inner">
+</div>
+</div>
+<div class="cap-bottom">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+</div>
+<div class="fauxcolumn-outer fauxcolumn-right-outer">
+<div class="cap-top">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+<div class="fauxborder-left">
+<div class="fauxborder-right"></div>
+<div class="fauxcolumn-inner">
+</div>
+</div>
+<div class="cap-bottom">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+</div>
+<!-- corrects IE6 width calculation -->
+<div class="columns-inner">
+<div class="column-center-outer">
+<div class="column-center-inner">
+<div class="main section" id="main"><div class="widget Blog" id="Blog1">
+<div class="blog-posts hfeed">
+<!-- google_ad_section_start(name=default) -->
+
+          <div class="date-outer">
+        
+<h2 class="date-header"><span>Wednesday, September 12, 2012</span></h2>
+
+          <div class="date-posts">
+        
+<div class="post-outer">
+<div class="post hentry">
+<a name="7508926803578867367"></a>
+<h3 class="post-title entry-title">
+Communicating with the Basys2 using the Adept SDK
+</h3>
+<div class="post-header">
+<div class="post-header-line-1"></div>
+</div>
+<div class="post-body entry-content">
+Writing code for development boards is fun: LEDs flash, respond to 
+button presses, etc. Eventually though, we would like to be able to 
+communicate with our boards using a PC. Many boards include a RS-232 
+(serial) port for just this purpose. RS-232 has a few drawbacks though, 
+most notably that if your computer was purchased this&nbsp;millennium, 
+you will probably have to use a USB-serial converter. These are cheap 
+and prevalent, but it is just another thing to clutter up your 
+workspace. Also, transferring large amounts of non-ASCII data (i.e. raw 
+hex) can be challenging and time consuming. Since legacy ports are going
+ the way of the Dodo bird, many developers are omitting the serial port 
+from their development boards, and instead including a USB controller. 
+The Basys2 from Digilent is one such board. This leaves us in a lurch, 
+unless we can find a way to interact with the device through its USB 
+controller. And that's were the Adept SDK comes in.<br>
+<br>
+Instead of having to look up the specifics of the USB chip on the board,
+ the Adept SDK provides APIs to interact with the board. In this post, 
+I'll cover just 2 of the libraries: the device access management library
+ (DMGR) and the asynchronous parallel port library (DEPP). Note that 
+DEPP is so named for the similarity to the Enhanced Parallel Port (EPP) 
+protocol used by parallel ports.<br>
+<br>
+The Adept SDK provides code samples for each of the libraries. For the 
+DMGR library, there are 2 examples: EnumDemo and GetInfoDemo. To get 
+started, download the Adept SDK and Adept Runtime from&nbsp;<a href="http://www.digilentinc.com/">Digilent</a>. Install the runtime, and decompress the SDK somewhere you can find it. The SDK contains:<br>
+<ul>
+<li>Documentation: PDF files describing how to use the libraries in the <i>doc </i>folder</li>
+<li>Header Files: The <i>include </i>folder contains header files</li>
+<li>Static Libraries: The APIs are provided as precompiled libraries</li>
+<li>Code Samples: Example code for each library is included in the <i>samples</i>&nbsp;folders</li>
+</ul>
+<div>
+<br>
+After downloading the SDK for Windows, I set about to compiling some of 
+the samples. There are&nbsp;introductions&nbsp;on how to do this in the <i>samples</i>&nbsp;directory,
+ but they are specific to Visual Studio. In my case, I am using MinGW's 
+toolchain. The linkers in the two toolchains expect library files to be 
+named differently. Visual Studio expects a library file named <i>&lt;library name&gt;.lib</i>, and this is how the libraries are provided by Digilent. MinGW's linker, <i>ld</i>, only accepts library files in the format <i>lib&lt;library name&gt;.a</i>. Similarly, <i>ld</i>&nbsp;running under Linux expects a file <i>lib&lt;library name&gt;.so</i>. So, in order to use the Windows libraries provided by Digilent, I had to rename all of the files. <i>dmgr.lib</i>&nbsp;had to be renamed <i>libdmgr.a</i>, for example. The Windows version of the SDK contains the libraries in the <i>lib</i>&nbsp;or <i>lib64 </i>directories. The Linux version installs the libraries with the runtime.</div>
+<div>
+<br>
+In order to get g++ to compile the examples, I had to specify the 
+include directory using -I, specify the library directory using -L, and 
+specify which libraries to use AFTER the filename. For example, a 
+project that uses only the DMGR library would have -ldmgr after the file
+ name.</div>
+<div>
+<br>
+I compiled and executed the DMGR examples EnumDemo and GetInfoDemo. 
+These confirmed that there was in fact a Basys2 attached to my system, 
+and that it supported the DEPP library. I then instantiated a DEPP 
+interface on the FPGA that included 2 operand registers and a result 
+register. The operand registers can be written by the PC, and the result
+ register can be read. Actually creating those structures on the FPGA 
+will be covered in another post, but project files can be found <a href="https://docs.google.com/folder/d/0ByjYpdaRCAj-SUlVYjJ5TG13c2c/edit">here</a>.</div>
+<div>
+<br>
+I wanted to write some code to write values to the operand registers, 
+then read the result out. Here's what it looks like (full file <a href="https://docs.google.com/folder/d/0ByjYpdaRCAj-SUlVYjJ5TG13c2c/edit?docId=0ByjYpdaRCAj-a3BhclNsZ2tJbjA">here</a>):<br>
+<blockquote class="tr_bq">
+<span style="color: #783f04;">&nbsp;#if defined(WIN32)</span><br>
+<span style="color: #274e13;"><span class="Apple-tab-span" style="white-space: pre;"> </span>/* Include Windows specific headers here.*/</span><br>
+<span style="color: #783f04;"><span class="Apple-tab-span" style="white-space: pre;"> </span>#include &lt;windows.h&gt;</span><br>
+<span style="color: #783f04;">#endif</span></blockquote>
+</div>
+<div>
+This makes the necessary types available on a Windows.<br>
+<blockquote class="tr_bq">
+<span style="color: #783f04;">#include &lt;stdio.h&gt;<br>#include "dpcdecl.h"<br>#include "dmgr.h"<br>#include "depp.h"</span></blockquote>
+All of the header files needed for this project.<br>
+<blockquote class="tr_bq">
+<span style="color: #783f04;">#define OP1ADDR &nbsp; &nbsp; &nbsp; &nbsp; 0x00<br>#define OP2ADDR &nbsp; &nbsp; &nbsp; &nbsp; 0x01<br>#define RESADDR &nbsp; &nbsp; &nbsp; &nbsp; 0x00</span></blockquote>
+I chose to use text substitutions to define the register locations, to 
+make my code easier to read. And then we start with main():<br>
+<blockquote class="tr_bq">
+<span style="color: purple;">int</span> main()<br>
+{<br>
+&nbsp; &nbsp; &nbsp; &nbsp; HIF deviceHandle;<br>
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: purple;">int </span>status = fTrue;<br>
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: purple;">char</span> deviceName[<span style="color: orange;">32</span>] = <span style="color: #666666;">"Basys2"</span>;<br>
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: purple;">unsigned char </span>result;</blockquote>
+The type HIF is defined in <i>dpcdecl.h</i>, and is a structure that holds a <a href="http://en.wikipedia.org/wiki/Handle_%28computing%29">handle</a>
+ to a device. This handle is used to interact with the Basys2. The 
+status variable will be used for error detection/error handling. The 
+device name is the UserName of the device. I found the UserName using 
+EnumDemo. <i>result </i>will hold the result of the arithmetic that we read back from the device.<br>
+<blockquote class="tr_bq">
+<span style="white-space: pre;"><span style="color: #274e13;">//Open a handle to the device</span></span><br>
+<span style="white-space: pre;">status = DmgrOpen(<span style="color: #20124d;">&amp;</span>deviceHandle,deviceName);</span><br>
+<span style="white-space: pre;"><span style="color: blue;">if </span>(status)</span><br>
+<span style="white-space: pre;">  printf(<span style="color: #666666;">"Successfully opened a handle to %s\n"</span>, deviceName);</span><br>
+<span style="white-space: pre;"><span style="color: blue;">else</span></span><br>
+<span style="white-space: pre;">{</span><br>
+<span style="white-space: pre;">  status = DmgrGetLastError();</span><br>
+<span style="white-space: pre;">  printf(<span style="color: #666666;">"Error code: %d\n"</span>, status);</span><br>
+<span style="white-space: pre;">}</span></blockquote>
+&nbsp;The first step in interacting with the device is to open a handle 
+to it.&nbsp;Note that the API functions return FALSE if there is an 
+error, and TRUE if they are successful.<br>
+<blockquote class="tr_bq">
+<span style="color: #274e13;">//Enable the default port (Port 0) on the device</span><br>
+status = DeppEnable(deviceHandle);<br>
+<span style="color: blue;">if</span> (status)<br>
+<span class="Apple-tab-span" style="white-space: pre;">  </span>printf(<span style="color: #666666;">"Successfully enabled Port 0\n"</span>);<br>
+<span style="color: blue;">else</span><br>
+{<br>
+<span class="Apple-tab-span" style="white-space: pre;">  </span>status = DmgrGetLastError();<br>
+<span class="Apple-tab-span" style="white-space: pre;">  </span>printf(<span style="color: #666666;">"Error code: %d\n"</span>, status);<br>
+}</blockquote>
+The EPP port must be enabled before reading or writing.<br>
+<blockquote class="tr_bq">
+<span style="color: #274e13;">//Do some math</span><br>
+DeppPutReg(deviceHandle, OP1ADDR, <span style="color: orange;">0x00</span>, fFalse);<br>
+DeppPutReg(deviceHandle, OP2ADDR, <span style="color: orange;">0x00</span>, fFalse);<br>
+DeppGetReg(deviceHandle, RESADDR,<span style="color: #20124d;"> &amp;</span>result, fFalse);<br>
+printf(<span style="color: #666666;">"0x00 + 0x00 = 0x%02X\n"</span>, result);<br>
+<span style="color: #274e13;">//...</span><br>
+DeppPutReg(deviceHandle, OP1ADDR, <span style="color: orange;">0xFF</span>, fFalse);<br>
+DeppPutReg(deviceHandle, OP2ADDR, <span style="color: orange;">0x01</span>, fFalse);<br>
+DeppGetReg(deviceHandle, RESADDR, <span style="color: #20124d;">&amp;</span>result, fFalse);<br>
+printf(<span style="color: #666666;">"0xFF + 0x01 = 0x%02X\n"</span>, result);</blockquote>
+<span style="background-color: white;">Here's where I actually transfer 
+some data to and from the device. I write to the operand registers using
+ DeppPutReg(), and then read the result register using DeppGetReg(). I 
+ran through several scenarios to make sure that the adder was working 
+properly.</span><br>
+<blockquote class="tr_bq">
+<span style="white-space: pre;"><span style="color: #274e13;">//Disable the active port on the device</span></span><br>
+<span style="white-space: pre;">status = DeppDisable(deviceHandle);</span><br>
+<span style="white-space: pre;"><span style="color: blue;">if </span>(status)</span><br>
+<span class="Apple-tab-span" style="white-space: pre;">  </span>printf(<span style="color: #666666;">"Successfully disabled DEPP port\n"</span>);<br>
+<span style="white-space: pre;"><span style="color: blue;">else</span></span><br>
+<span style="white-space: pre;">{</span><br>
+<span class="Apple-tab-span" style="white-space: pre;">  </span>status = DmgrGetLastError();<br>
+<span class="Apple-tab-span" style="white-space: pre;">  </span>printf(<span style="color: #666666;">"Error code: %d\n"</span>, status);<br>
+<span style="white-space: pre;">}</span><br>
+<span style="white-space: pre;"><br></span>
+<span style="white-space: pre;">//Close our handle to the device</span><span style="white-space: pre;">status = DmgrClose(deviceHandle);</span><br>
+<span style="white-space: pre;"><span style="color: blue;">if </span>(status)</span><br>
+<span class="Apple-tab-span" style="white-space: pre;">  </span>printf(<span style="color: #666666;">"Successfully closed device handle\n"</span>);<br>
+<span style="white-space: pre;"><span style="color: blue;">else</span></span><br>
+<span style="white-space: pre;">{</span><br>
+<span class="Apple-tab-span" style="white-space: pre;">  </span>status = DmgrGetLastError();<br>
+<span class="Apple-tab-span" style="white-space: pre;">  </span>printf(<span style="color: #666666;">"Error code: %d\n"</span>, status);<br>
+<span style="white-space: pre;">}</span>&nbsp;</blockquote>
+<span style="background-color: white;">This is all cleanup to make sure that I gracefully release the device.</span><br>
+<br>
+When it was all said and done, the output looked like this:<br>
+<span style="background-color: black;"><span style="color: lime;">Successfully opened a handle to Basys2</span></span><br>
+<span style="background-color: black;"><span style="color: lime;">Successfully enabled Port 0</span></span><br>
+<span style="background-color: black;"><span style="color: lime;">0x00 + 0x00 = 0x00</span></span><br>
+<span style="background-color: black;"><span style="color: lime;">0x01 + 0x00 = 0x01</span></span><br>
+<span style="background-color: black;"><span style="color: lime;">0x01 + 0x01 = 0x02</span></span><br>
+<span style="background-color: black;"><span style="color: lime;">0xA5 + 0x5A = 0xFF</span></span><br>
+<span style="background-color: black;"><span style="color: lime;">0xFF + 0x01 = 0x00</span></span><br>
+<span style="background-color: black;"><span style="color: lime;">Successfully disabled DEPP port</span></span><br>
+<span style="background-color: black;"><span style="color: lime;">Successfully closed device handle</span></span><br>
+<span style="background-color: black;"><span style="color: lime;"><br></span></span>
+
+<span style="background-color: white;">And so, I successfully moved raw 
+data to the device, and read a result. While an unsigned 8-bit adder is 
+trivial, this gives me all of the building blocks to do something more 
+interesting, like cryptographic work.</span></div>
+<div style="clear: both;"></div>
+</div>
+<div class="post-footer">
+<div class="post-footer-line post-footer-line-1"><span class="post-author vcard">
+Posted by
+<span class="fn">Camdon Cady</span>
+</span>
+<span class="post-timestamp">
+at
+<a class="timestamp-link" href="http://sadgeeksinsnow.blogspot.tw/2012/09/communicating-with-basys2-using-adept.html" rel="bookmark" title="permanent link"><abbr class="published" title="2012-09-12T13:54:00-07:00">1:54 PM</abbr></a>
+</span>
+<span class="post-comment-link">
+</span>
+<span class="post-icons">
+<div id="flattr_summary_7508926803578867367" style="display: none;">
+Writing code for development boards is fun: LEDs flash, respond to 
+button presses, etc. Eventually though, we would like to be able to 
+communicate with our boards using a PC. Many boards include a RS-232 
+(serial) port for just this purpose. RS-232 has a few drawbacks though, 
+most notably that if your computer was purchased this&nbsp;millennium, 
+you will probably have to use a USB-serial converter. These are cheap 
+and prevalent, but it is just another thing to clutter up your 
+workspace. Also, transferring large amounts of non-ASCII data (i.e. raw 
+hex) can be challenging and time consuming. Since legacy ports are going
+ the way of the Dodo bird, many developers are omitting the serial port 
+from their development boards, and instead including a USB controller. 
+The Basys2 from Digilent is one such board. This leaves us in a lurch, 
+unless we can find a way to interact with the device through its USB 
+controller. And that's were the Adept SDK comes in.<br>
+<br>
+Instead of having to look up the specifics of the USB chip on the board,
+ the Adept SDK provides APIs to interact with the board. In this post, 
+I'll cover just 2 of the libraries: the device access management library
+ (DMGR) and the asynchronous parallel port library (DEPP). Note that 
+DEPP is so named for the similarity to the Enhanced Parallel Port (EPP) 
+protocol used by parallel ports.<br>
+<br>
+The Adept SDK provides code samples for each of the libraries. For the 
+DMGR library, there are 2 examples: EnumDemo and GetInfoDemo. To get 
+started, download the Adept SDK and Adept Runtime from&nbsp;<a href="http://www.digilentinc.com/">Digilent</a>. Install the runtime, and decompress the SDK somewhere you can find it. The SDK contains:<br>
+<ul>
+<li>Documentation: PDF files describing how to use the libraries in the <i>doc </i>folder</li>
+<li>Header Files: The <i>include </i>folder contains header files</li>
+<li>Static Libraries: The APIs are provided as precompiled libraries</li>
+<li>Code Samples: Example code for each library is included in the <i>samples</i>&nbsp;folders</li>
+</ul>
+<div>
+<br>
+After downloading the SDK for Windows, I set about to compiling some of 
+the samples. There are&nbsp;introductions&nbsp;on how to do this in the <i>samples</i>&nbsp;directory,
+ but they are specific to Visual Studio. In my case, I am using MinGW's 
+toolchain. The linkers in the two toolchains expect library files to be 
+named differently. Visual Studio expects a library file named <i>&lt;library name&gt;.lib</i>, and this is how the libraries are provided by Digilent. MinGW's linker, <i>ld</i>, only accepts library files in the format <i>lib&lt;library name&gt;.a</i>. Similarly, <i>ld</i>&nbsp;running under Linux expects a file <i>lib&lt;library name&gt;.so</i>. So, in order to use the Windows libraries provided by Digilent, I had to rename all of the files. <i>dmgr.lib</i>&nbsp;had to be renamed <i>libdmgr.a</i>, for example. The Windows version of the SDK contains the libraries in the <i>lib</i>&nbsp;or <i>lib64 </i>directories. The Linux version installs the libraries with the runtime.</div>
+<div>
+<br>
+In order to get g++ to compile the examples, I had to specify the 
+include directory using -I, specify the library directory using -L, and 
+specify which libraries to use AFTER the filename. For example, a 
+project that uses only the DMGR library would have -ldmgr after the file
+ name.</div>
+<div>
+<br>
+I compiled and executed the DMGR examples EnumDemo and GetInfoDemo. 
+These confirmed that there was in fact a Basys2 attached to my system, 
+and that it supported the DEPP library. I then instantiated a DEPP 
+interface on the FPGA that included 2 operand registers and a result 
+register. The operand registers can be written by the PC, and the result
+ register can be read. Actually creating those structures on the FPGA 
+will be covered in another post, but project files can be found <a href="https://docs.google.com/folder/d/0ByjYpdaRCAj-SUlVYjJ5TG13c2c/edit">here</a>.</div>
+<div>
+<br>
+I wanted to write some code to write values to the operand registers, 
+then read the result out. Here's what it looks like (full file <a href="https://docs.google.com/folder/d/0ByjYpdaRCAj-SUlVYjJ5TG13c2c/edit?docId=0ByjYpdaRCAj-a3BhclNsZ2tJbjA">here</a>):<br>
+<blockquote class="tr_bq">
+<span style="color: #783f04;">&nbsp;#if defined(WIN32)</span><br>
+<span style="color: #274e13;"><span class="Apple-tab-span" style="white-space: pre;"> </span>/* Include Windows specific headers here.*/</span><br>
+<span style="color: #783f04;"><span class="Apple-tab-span" style="white-space: pre;"> </span>#include &lt;windows.h&gt;</span><br>
+<span style="color: #783f04;">#endif</span></blockquote>
+</div>
+<div>
+This makes the necessary types available on a Windows.<br>
+<blockquote class="tr_bq">
+<span style="color: #783f04;">#include &lt;stdio.h&gt;<br>#include "dpcdecl.h"<br>#include "dmgr.h"<br>#include "depp.h"</span></blockquote>
+All of the header files needed for this project.<br>
+<blockquote class="tr_bq">
+<span style="color: #783f04;">#define OP1ADDR &nbsp; &nbsp; &nbsp; &nbsp; 0x00<br>#define OP2ADDR &nbsp; &nbsp; &nbsp; &nbsp; 0x01<br>#define RESADDR &nbsp; &nbsp; &nbsp; &nbsp; 0x00</span></blockquote>
+I chose to use text substitutions to define the register locations, to 
+make my code easier to read. And then we start with main():<br>
+<blockquote class="tr_bq">
+<span style="color: purple;">int</span> main()<br>
+{<br>
+&nbsp; &nbsp; &nbsp; &nbsp; HIF deviceHandle;<br>
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: purple;">int </span>status = fTrue;<br>
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: purple;">char</span> deviceName[<span style="color: orange;">32</span>] = <span style="color: #666666;">"Basys2"</span>;<br>
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: purple;">unsigned char </span>result;</blockquote>
+The type HIF is defined in <i>dpcdecl.h</i>, and is a structure that holds a <a href="http://en.wikipedia.org/wiki/Handle_%28computing%29">handle</a>
+ to a device. This handle is used to interact with the Basys2. The 
+status variable will be used for error detection/error handling. The 
+device name is the UserName of the device. I found the UserName using 
+EnumDemo. <i>result </i>will hold the result of the arithmetic that we read back from the device.<br>
+<blockquote class="tr_bq">
+<span style="white-space: pre;"><span style="color: #274e13;">//Open a handle to the device</span></span><br>
+<span style="white-space: pre;">status = DmgrOpen(<span style="color: #20124d;">&amp;</span>deviceHandle,deviceName);</span><br>
+<span style="white-space: pre;"><span style="color: blue;">if </span>(status)</span><br>
+<span style="white-space: pre;">  printf(<span style="color: #666666;">"Successfully opened a handle to %s\n"</span>, deviceName);</span><br>
+<span style="white-space: pre;"><span style="color: blue;">else</span></span><br>
+<span style="white-space: pre;">{</span><br>
+<span style="white-space: pre;">  status = DmgrGetLastError();</span><br>
+<span style="white-space: pre;">  printf(<span style="color: #666666;">"Error code: %d\n"</span>, status);</span><br>
+<span style="white-space: pre;">}</span></blockquote>
+&nbsp;The first step in interacting with the device is to open a handle 
+to it.&nbsp;Note that the API functions return FALSE if there is an 
+error, and TRUE if they are successful.<br>
+<blockquote class="tr_bq">
+<span style="color: #274e13;">//Enable the default port (Port 0) on the device</span><br>
+status = DeppEnable(deviceHandle);<br>
+<span style="color: blue;">if</span> (status)<br>
+<span class="Apple-tab-span" style="white-space: pre;">  </span>printf(<span style="color: #666666;">"Successfully enabled Port 0\n"</span>);<br>
+<span style="color: blue;">else</span><br>
+{<br>
+<span class="Apple-tab-span" style="white-space: pre;">  </span>status = DmgrGetLastError();<br>
+<span class="Apple-tab-span" style="white-space: pre;">  </span>printf(<span style="color: #666666;">"Error code: %d\n"</span>, status);<br>
+}</blockquote>
+The EPP port must be enabled before reading or writing.<br>
+<blockquote class="tr_bq">
+<span style="color: #274e13;">//Do some math</span><br>
+DeppPutReg(deviceHandle, OP1ADDR, <span style="color: orange;">0x00</span>, fFalse);<br>
+DeppPutReg(deviceHandle, OP2ADDR, <span style="color: orange;">0x00</span>, fFalse);<br>
+DeppGetReg(deviceHandle, RESADDR,<span style="color: #20124d;"> &amp;</span>result, fFalse);<br>
+printf(<span style="color: #666666;">"0x00 + 0x00 = 0x%02X\n"</span>, result);<br>
+<span style="color: #274e13;">//...</span><br>
+DeppPutReg(deviceHandle, OP1ADDR, <span style="color: orange;">0xFF</span>, fFalse);<br>
+DeppPutReg(deviceHandle, OP2ADDR, <span style="color: orange;">0x01</span>, fFalse);<br>
+DeppGetReg(deviceHandle, RESADDR, <span style="color: #20124d;">&amp;</span>result, fFalse);<br>
+printf(<span style="color: #666666;">"0xFF + 0x01 = 0x%02X\n"</span>, result);</blockquote>
+<span style="background-color: white;">Here's where I actually transfer 
+some data to and from the device. I write to the operand registers using
+ DeppPutReg(), and then read the result register using DeppGetReg(). I 
+ran through several scenarios to make sure that the adder was working 
+properly.</span><br>
+<blockquote class="tr_bq">
+<span style="white-space: pre;"><span style="color: #274e13;">//Disable the active port on the device</span></span><br>
+<span style="white-space: pre;">status = DeppDisable(deviceHandle);</span><br>
+<span style="white-space: pre;"><span style="color: blue;">if </span>(status)</span><br>
+<span class="Apple-tab-span" style="white-space: pre;">  </span>printf(<span style="color: #666666;">"Successfully disabled DEPP port\n"</span>);<br>
+<span style="white-space: pre;"><span style="color: blue;">else</span></span><br>
+<span style="white-space: pre;">{</span><br>
+<span class="Apple-tab-span" style="white-space: pre;">  </span>status = DmgrGetLastError();<br>
+<span class="Apple-tab-span" style="white-space: pre;">  </span>printf(<span style="color: #666666;">"Error code: %d\n"</span>, status);<br>
+<span style="white-space: pre;">}</span><br>
+<span style="white-space: pre;"><br></span>
+<span style="white-space: pre;">//Close our handle to the device</span><span style="white-space: pre;">status = DmgrClose(deviceHandle);</span><br>
+<span style="white-space: pre;"><span style="color: blue;">if </span>(status)</span><br>
+<span class="Apple-tab-span" style="white-space: pre;">  </span>printf(<span style="color: #666666;">"Successfully closed device handle\n"</span>);<br>
+<span style="white-space: pre;"><span style="color: blue;">else</span></span><br>
+<span style="white-space: pre;">{</span><br>
+<span class="Apple-tab-span" style="white-space: pre;">  </span>status = DmgrGetLastError();<br>
+<span class="Apple-tab-span" style="white-space: pre;">  </span>printf(<span style="color: #666666;">"Error code: %d\n"</span>, status);<br>
+<span style="white-space: pre;">}</span>&nbsp;</blockquote>
+<span style="background-color: white;">This is all cleanup to make sure that I gracefully release the device.</span><br>
+<br>
+When it was all said and done, the output looked like this:<br>
+<span style="background-color: black;"><span style="color: lime;">Successfully opened a handle to Basys2</span></span><br>
+<span style="background-color: black;"><span style="color: lime;">Successfully enabled Port 0</span></span><br>
+<span style="background-color: black;"><span style="color: lime;">0x00 + 0x00 = 0x00</span></span><br>
+<span style="background-color: black;"><span style="color: lime;">0x01 + 0x00 = 0x01</span></span><br>
+<span style="background-color: black;"><span style="color: lime;">0x01 + 0x01 = 0x02</span></span><br>
+<span style="background-color: black;"><span style="color: lime;">0xA5 + 0x5A = 0xFF</span></span><br>
+<span style="background-color: black;"><span style="color: lime;">0xFF + 0x01 = 0x00</span></span><br>
+<span style="background-color: black;"><span style="color: lime;">Successfully disabled DEPP port</span></span><br>
+<span style="background-color: black;"><span style="color: lime;">Successfully closed device handle</span></span><br>
+<span style="background-color: black;"><span style="color: lime;"><br></span></span>
+
+<span style="background-color: white;">And so, I successfully moved raw 
+data to the device, and read a result. While an unsigned 8-bit adder is 
+trivial, this gives me all of the building blocks to do something more 
+interesting, like cryptographic work.</span></div>
+</div>
+<div id="flattr_title_7508926803578867367" style="display: none;">
+Communicating with the Basys2 using the Adept SDK
+</div>
+<script type="text/javascript">  
+			displayFlattrButton('7508926803578867367', 'http://sadgeeksinsnow.blogspot.tw/2012/09/communicating-with-basys2-using-adept.html', 'basys2,C++,depp,embedded systems,fpga');
+			</script>
+<br>
+<span class="item-control blog-admin pid-670655318">
+<a href="http://www.blogger.com/post-edit.g?blogID=595472175096221442&amp;postID=7508926803578867367&amp;from=pencil" title="Edit Post">
+<img alt="" class="icon-action" src="communicating-with-basys2-using-adept_files/icon18_edit_allbkg.gif" height="18" width="18">
+</a>
+</span>
+</span>
+<div class="post-share-buttons">
+<a class="goog-inline-block share-button sb-email" href="http://www.blogger.com/share-post.g?blogID=595472175096221442&amp;postID=7508926803578867367&amp;target=email" target="_blank" title="Email This"><span class="share-button-link-text">Email This</span></a><a class="goog-inline-block share-button sb-blog" href="http://www.blogger.com/share-post.g?blogID=595472175096221442&amp;postID=7508926803578867367&amp;target=blog" onclick='window.open(this.href, "_blank", "height=270,width=475"); return false;' target="_blank" title="BlogThis!"><span class="share-button-link-text">BlogThis!</span></a><a class="goog-inline-block share-button sb-twitter" href="http://www.blogger.com/share-post.g?blogID=595472175096221442&amp;postID=7508926803578867367&amp;target=twitter" target="_blank" title="Share to Twitter"><span class="share-button-link-text">Share to Twitter</span></a><a class="goog-inline-block share-button sb-facebook" href="http://www.blogger.com/share-post.g?blogID=595472175096221442&amp;postID=7508926803578867367&amp;target=facebook" onclick='window.open(this.href, "_blank", "height=430,width=640"); return false;' target="_blank" title="Share to Facebook"><span class="share-button-link-text">Share to Facebook</span></a><div class="goog-inline-block dummy-container"><div id="___plusone_0" style="height: 20px; width: 300px; display: inline-block; text-indent: 0px; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% transparent; border-style: none; float: none; line-height: normal; font-size: 1px; vertical-align: baseline;"><iframe title="+1" src="communicating-with-basys2-using-adept_files/fastbutton.html" name="I0_1353124007680" id="I0_1353124007680" vspace="0" tabindex="0" style="position: static; top: 0px; width: 300px; margin: 0px; border-style: none; left: 0px; visibility: visible; height: 20px;" marginwidth="0" marginheight="0" hspace="0" allowtransparency="true" frameborder="0" scrolling="no" width="100%"></iframe></div></div>
+</div>
+</div>
+<div class="post-footer-line post-footer-line-2"><span class="post-labels">
+Labels:
+<a href="http://sadgeeksinsnow.blogspot.tw/search/label/basys2" rel="tag">basys2</a>,
+<a href="http://sadgeeksinsnow.blogspot.tw/search/label/C%2B%2B" rel="tag">C++</a>,
+<a href="http://sadgeeksinsnow.blogspot.tw/search/label/depp" rel="tag">depp</a>,
+<a href="http://sadgeeksinsnow.blogspot.tw/search/label/embedded%20systems" rel="tag">embedded systems</a>,
+<a href="http://sadgeeksinsnow.blogspot.tw/search/label/fpga" rel="tag">fpga</a>
+</span>
+</div>
+<div class="post-footer-line post-footer-line-3"></div>
+</div>
+</div>
+<div class="comments" id="comments">
+<a name="comments"></a>
+<h4>No comments:</h4>
+<div id="Blog1_comments-block-wrapper">
+<dl class="avatar-comment-indent" id="comments-block">
+</dl>
+</div>
+<p class="comment-footer">
+</p><div class="comment-form">
+<a name="comment-form"></a>
+<h4 id="comment-post-message">Post a Comment</h4>
+<p>
+</p>
+<a href="http://www.blogger.com/comment-iframe.g?blogID=595472175096221442&amp;postID=7508926803578867367&amp;blogspotRpcToken=7793506" id="comment-editor-src"></a>
+<iframe allowtransparency="true" class="blogger-iframe-colorize blogger-comment-from-post" id="comment-editor" name="comment-editor" src="communicating-with-basys2-using-adept_files/comment-iframe.html" frameborder="0" height="236px" width="100%"></iframe>
+<script type="text/javascript" src="communicating-with-basys2-using-adept_files/848709640-comment_from_post_iframe.js"></script>
+<script type="text/javascript">
+      BLOG_CMT_createIframe('http://www.blogger.com/rpc_relay.html', '14227310688799996580');
+    </script>
+</div>
+<p></p>
+<div id="backlinks-container">
+<div id="Blog1_backlinks-container">
+</div>
+</div>
+</div>
+</div>
+<!-- google_ad_section_end(name=default) -->
+<div class="inline-ad">
+<script type="text/javascript"><!--
+google_ad_client="pub-5376788652959510";
+google_ad_host="pub-1556223355139109";
+google_ad_width=300;
+google_ad_height=250;
+google_ad_format="300x250_as";
+google_ad_type="text_image";
+google_ad_host_channel="0001";
+google_color_border="FFFFFF";
+google_color_bg="FFFFFF";
+google_color_link="75CDFF";
+google_color_url="939C46";
+google_color_text="666666";
+//--></script>
+<script type="text/javascript" src="communicating-with-basys2-using-adept_files/show_ads.js">
+</script>
+</div>
+<!-- google_ad_section_start -->
+
+        </div></div>
+      
+<!-- google_ad_section_end -->
+</div>
+<div class="blog-pager" id="blog-pager">
+<span id="blog-pager-newer-link">
+<a class="blog-pager-newer-link" href="http://sadgeeksinsnow.blogspot.tw/2012/09/implementing-depp-interface-on-basys2.html" id="Blog1_blog-pager-newer-link" title="Newer Post">Newer Post</a>
+</span>
+<span id="blog-pager-older-link">
+<a class="blog-pager-older-link" href="http://sadgeeksinsnow.blogspot.tw/2012/09/my-first-experiences-bug-hunting-part-1.html" id="Blog1_blog-pager-older-link" title="Older Post">Older Post</a>
+</span>
+<a class="home-link" href="http://sadgeeksinsnow.blogspot.tw/">Home</a>
+</div>
+<div class="clear"></div>
+<div class="post-feeds">
+<div class="feed-links">
+Subscribe to:
+<a class="feed-link" href="http://sadgeeksinsnow.blogspot.com/feeds/7508926803578867367/comments/default" target="_blank" type="application/atom+xml">Post Comments (Atom)</a>
+</div>
+</div>
+<script type="text/javascript">window.___gcfg = {'lang': 'en'};window.___gapisync = false;(function() {var po = document.createElement('script');po.type = 'text/javascript';po.async = true;po.src = 'https://apis.google.com/js/plusone.js';var s = document.body.getElementsByTagName('script')[0];s.parentNode.insertBefore(po, s);})();</script>
+</div></div>
+</div>
+</div>
+<div class="column-left-outer">
+<div class="column-left-inner">
+<aside>
+</aside>
+</div>
+</div>
+<div class="column-right-outer">
+<div class="column-right-inner">
+<aside>
+<div class="sidebar section" id="sidebar-right-1"><div class="widget BlogArchive" id="BlogArchive1">
+<h2>Blog Archive</h2>
+<div class="widget-content">
+<div id="ArchiveList">
+<div id="BlogArchive1_ArchiveList">
+<ul class="hierarchy">
+<li class="archivedate expanded">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy toggle-open">▼&nbsp;</span>
+</a>
+<a class="post-count-link" href="http://sadgeeksinsnow.blogspot.tw/search?updated-min=2012-01-01T00:00:00-07:00&amp;updated-max=2013-01-01T00:00:00-07:00&amp;max-results=12">2012</a>
+<span class="post-count" dir="ltr">(12)</span>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://sadgeeksinsnow.blogspot.tw/2012_10_01_archive.html">October</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate expanded">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy toggle-open">▼&nbsp;</span>
+</a>
+<a class="post-count-link" href="http://sadgeeksinsnow.blogspot.tw/2012_09_01_archive.html">September</a>
+<span class="post-count" dir="ltr">(7)</span>
+<ul class="posts">
+<li><a href="http://sadgeeksinsnow.blogspot.tw/2012/09/preempting-pandora-to-play-pandemonium.html">Pandora Jacking</a></li>
+<li><a href="http://sadgeeksinsnow.blogspot.tw/2012/09/sql-and-finding-floating-point-error.html">SQL and finding a Floating Point Error</a></li>
+<li><a href="http://sadgeeksinsnow.blogspot.tw/2012/09/writing-my-first-metasploit-module.html">Writing My First Metasploit Module</a></li>
+<li><a href="http://sadgeeksinsnow.blogspot.tw/2012/09/implementing-depp-interface-on-basys2_12.html">Implementing a DEPP interface on a Basys2, part 2</a></li>
+<li><a href="http://sadgeeksinsnow.blogspot.tw/2012/09/implementing-depp-interface-on-basys2.html">Implementing a DEPP interface on a Basys2, part 1</a></li>
+<li><a href="http://sadgeeksinsnow.blogspot.tw/2012/09/communicating-with-basys2-using-adept.html">Communicating with the Basys2 using the Adept SDK</a></li>
+<li><a href="http://sadgeeksinsnow.blogspot.tw/2012/09/my-first-experiences-bug-hunting-part-1.html">My First Experiences Bug Hunting, Part 1</a></li>
+</ul>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://sadgeeksinsnow.blogspot.tw/2012_08_01_archive.html">August</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://sadgeeksinsnow.blogspot.tw/2012_01_01_archive.html">January</a>
+<span class="post-count" dir="ltr">(3)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://sadgeeksinsnow.blogspot.tw/search?updated-min=2011-01-01T00:00:00-07:00&amp;updated-max=2012-01-01T00:00:00-07:00&amp;max-results=3">2011</a>
+<span class="post-count" dir="ltr">(3)</span>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://sadgeeksinsnow.blogspot.tw/2011_02_01_archive.html">February</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://sadgeeksinsnow.blogspot.tw/2011_01_01_archive.html">January</a>
+<span class="post-count" dir="ltr">(2)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://sadgeeksinsnow.blogspot.tw/search?updated-min=2010-01-01T00:00:00-07:00&amp;updated-max=2011-01-01T00:00:00-07:00&amp;max-results=8">2010</a>
+<span class="post-count" dir="ltr">(8)</span>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://sadgeeksinsnow.blogspot.tw/2010_12_01_archive.html">December</a>
+<span class="post-count" dir="ltr">(2)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://sadgeeksinsnow.blogspot.tw/2010_11_01_archive.html">November</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://sadgeeksinsnow.blogspot.tw/2010_10_01_archive.html">October</a>
+<span class="post-count" dir="ltr">(2)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://sadgeeksinsnow.blogspot.tw/2010_09_01_archive.html">September</a>
+<span class="post-count" dir="ltr">(3)</span>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="clear"></div>
+<span class="widget-item-control">
+<span class="item-control blog-admin">
+<a class="quickedit" href="http://www.blogger.com/rearrange?blogID=595472175096221442&amp;widgetType=BlogArchive&amp;widgetId=BlogArchive1&amp;action=editWidget&amp;sectionId=sidebar-right-1" onclick='return _WidgetManager._PopupConfig(document.getElementById("BlogArchive1"));' target="configBlogArchive1" title="Edit">
+<img alt="" src="communicating-with-basys2-using-adept_files/icon18_wrench_allbkg.png" height="18" width="18">
+</a>
+</span>
+</span>
+<div class="clear"></div>
+</div>
+</div><div class="widget Followers" id="Followers1">
+<h2 class="title">Followers</h2>
+<div class="widget-content">
+<div id="Followers1-wrapper">
+<div style="margin-right:2px;">
+<script type="text/javascript">
+        if (!window.google || !google.friendconnect) {
+          document.write('<script type="text/javascript"' +
+              'src="http://www.google.com/friendconnect/script/friendconnect.js">' +
+              '</scr' + 'ipt>');
+        }
+      </script><script type="text/javascript" src="communicating-with-basys2-using-adept_files/friendconnect.js"></script>
+<script type="text/javascript">
+      if (!window.registeredBloggerCallbacks) {
+        window.registeredBloggerCallbacks = true;
+
+        
+
+        
+        gadgets.rpc.register('requestReload', function() {
+          document.location.reload();
+        });
+
+        
+        gadgets.rpc.register('requestSignOut', function(siteId) {
+          
+          google.friendconnect.container.openSocialSiteId = siteId;
+          google.friendconnect.requestSignOut();
+        });
+      }
+    </script>
+<script type="text/javascript">
+    
+    function registerGetBlogUrls() {
+      gadgets.rpc.register('getBlogUrls', function() {
+        var holder = {};
+        
+          
+            
+            
+              holder.currentPost = "http://www.blogger.com/feeds/595472175096221442/posts/default/7508926803578867367";
+            
+            
+            
+              holder.currentComments = "http://www.blogger.com/feeds/595472175096221442/7508926803578867367/comments/default";
+            
+            holder.currentPostUrl = "";
+            holder.currentPostId = 7508926803578867367
+          
+          
+          
+            holder.postFeed = "http://www.blogger.com/feeds/595472175096221442/posts/default";
+          
+          
+          
+            holder.commentFeed = "http://www.blogger.com/feeds/595472175096221442/comments/default";
+          
+          holder.currentBlogUrl = "http://sadgeeksinsnow.blogspot.com/";
+          holder.currentBlogId = "595472175096221442";
+        
+        return holder;
+      });
+    }
+  </script>
+<script type="text/javascript">
+  if (!window.registeredCommonBloggerCallbacks) {
+    window.registeredCommonBloggerCallbacks = true;
+
+    gadgets.rpc.register('resize_iframe', function(height) {
+      var el = document.getElementById(this['f']);
+      if (el) {
+        el.style.height = height + 'px';
+      }
+    });
+
+    
+    gadgets.rpc.register('set_pref', function() {});
+
+    registerGetBlogUrls();
+  }
+  </script>
+<div class="gadgets-gadget-container" id="div-1usnwma41el5c" style="width: 100%; visibility: visible;"><div id="gfc_iframe_496276666_0_body"><iframe id="gfc_iframe_496276666_0" name="gfc_iframe_496276666_0" style="width: 100%; height: 175px;" allowtransparency="true" frameborder="0" height="260" scrolling="no"></iframe></div></div>
+<script type="text/javascript">
+    var skin = {};
+    skin['FACE_SIZE'] = '32';
+    skin['HEIGHT'] = "260";
+    skin['TITLE'] = "Followers";
+    skin['BORDER_COLOR'] = "transparent";
+    skin['ENDCAP_BG_COLOR'] = "transparent";
+    skin['ENDCAP_TEXT_COLOR'] = "#666666";
+    skin['ENDCAP_LINK_COLOR'] = "#5a4973";
+    skin['ALTERNATE_BG_COLOR'] = "transparent";
+    
+    skin['CONTENT_BG_COLOR'] = "transparent";
+    skin['CONTENT_LINK_COLOR'] = "#5a4973";
+    skin['CONTENT_TEXT_COLOR'] = "#666666";
+    skin['CONTENT_SECONDARY_LINK_COLOR'] = "#5a4973";
+    skin['CONTENT_SECONDARY_TEXT_COLOR'] = "#666666";
+    skin['CONTENT_HEADLINE_COLOR'] = "#666666";
+    skin['FONT_FACE'] = "normal normal 13px Arial, Tahoma, Helvetica, FreeSans, sans-serif";
+    google.friendconnect.container.setParentUrl("/");
+    google.friendconnect.container["renderMembersGadget"](
+    {id: "div-1usnwma41el5c",
+     height: 260,
+     
+     
+     
+     site: "14227310688799996580",
+     
+     locale: 'en' },
+     skin);
+  </script>
+</div>
+</div>
+<div class="clear"></div>
+<span class="widget-item-control">
+<span class="item-control blog-admin">
+<a class="quickedit" href="http://www.blogger.com/rearrange?blogID=595472175096221442&amp;widgetType=Followers&amp;widgetId=Followers1&amp;action=editWidget&amp;sectionId=sidebar-right-1" onclick='return _WidgetManager._PopupConfig(document.getElementById("Followers1"));' target="configFollowers1" title="Edit">
+<img alt="" src="communicating-with-basys2-using-adept_files/icon18_wrench_allbkg.png" height="18" width="18">
+</a>
+</span>
+</span>
+<div class="clear"></div>
+</div>
+</div></div>
+</aside>
+</div>
+</div>
+</div>
+<div style="clear: both"></div>
+<!-- columns -->
+</div>
+<!-- main -->
+</div>
+</div>
+<div class="main-cap-bottom cap-bottom">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+</div>
+<footer>
+<div class="footer-outer">
+<div class="footer-cap-top cap-top">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+<div class="fauxborder-left footer-fauxborder-left">
+<div class="fauxborder-right footer-fauxborder-right"></div>
+<div class="region-inner footer-inner">
+<div class="foot section" id="footer-1"></div>
+<table class="section-columns columns-2" border="0" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td class="first columns-cell">
+<div class="foot section" id="footer-2-1"></div>
+</td>
+<td class="columns-cell">
+<div class="foot section" id="footer-2-2"></div>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- outside of the include in order to lock Attribution widget -->
+<div class="foot section" id="footer-3"><div class="widget Attribution" id="Attribution1">
+<div class="widget-content" style="text-align: center;">
+Powered by <a href="http://www.blogger.com/" target="_blank">Blogger</a>.
+</div>
+<div class="clear"></div>
+<span class="widget-item-control">
+<span class="item-control blog-admin">
+<a class="quickedit" href="http://www.blogger.com/rearrange?blogID=595472175096221442&amp;widgetType=Attribution&amp;widgetId=Attribution1&amp;action=editWidget&amp;sectionId=footer-3" onclick='return _WidgetManager._PopupConfig(document.getElementById("Attribution1"));' target="configAttribution1" title="Edit">
+<img alt="" src="communicating-with-basys2-using-adept_files/icon18_wrench_allbkg.png" height="18" width="18">
+</a>
+</span>
+</span>
+<div class="clear"></div>
+</div></div>
+</div>
+</div>
+<div class="footer-cap-bottom cap-bottom">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+</div>
+</footer>
+<!-- content -->
+</div>
+</div>
+<div class="content-cap-bottom cap-bottom">
+<div class="cap-left"></div>
+<div class="cap-right"></div>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+    window.setTimeout(function() {
+        document.body.className = document.body.className.replace('loading', '');
+      }, 10);
+  </script>
+<script type="text/javascript">
+if (window.jstiming) window.jstiming.load.tick('widgetJsBefore');
+</script><script type="text/javascript" src="communicating-with-basys2-using-adept_files/2000000996-widgets.js"></script>
+<script type="text/javascript">
+if (typeof(BLOG_attachCsiOnload) != 'undefined' && BLOG_attachCsiOnload != null) { window['blogger_templates_experiment_id'] = "templatesV2";window['blogger_blog_id'] = '595472175096221442';BLOG_attachCsiOnload('item_'); }_WidgetManager._Init('//www.blogger.com/rearrange?blogID\x3d595472175096221442','//sadgeeksinsnow.blogspot.tw/2012/09/communicating-with-basys2-using-adept.html','595472175096221442');
+_WidgetManager._SetDataContext([{'name': 'blog', 'data': {'blogId': '595472175096221442', 'bloggerUrl': 'http://www.blogger.com', 'title': 'Sad Geeks In Snow', 'pageType': 'item', 'url': 'http://sadgeeksinsnow.blogspot.tw/2012/09/communicating-with-basys2-using-adept.html', 'canonicalUrl': 'http://sadgeeksinsnow.blogspot.com/2012/09/communicating-with-basys2-using-adept.html', 'canonicalHomepageUrl': 'http://sadgeeksinsnow.blogspot.com/', 'homepageUrl': 'http://sadgeeksinsnow.blogspot.tw/', 'blogspotFaviconUrl': 'http://sadgeeksinsnow.blogspot.tw/favicon.ico', 'enabledCommentProfileImages': true, 'adultContent': false, 'disableAdSenseWidget': false, 'analyticsAccountNumber': '', 'searchLabel': '', 'searchQuery': '', 'pageName': 'Communicating with the Basys2 using the Adept SDK', 'pageTitle': 'Sad Geeks In Snow: Communicating with the Basys2 using the Adept SDK', 'metaDescription': '', 'encoding': 'UTF-8', 'locale': 'en', 'isPrivate': false, 'isMobile': false, 'isMobileRequest': false, 'mobileClass': '', 'isPrivateBlog': false, 'languageDirection': 'ltr', 'feedLinks': '\74link rel\75\42alternate\42 type\75\42application/atom+xml\42 title\75\42Sad Geeks In Snow - Atom\42 href\75\42http://sadgeeksinsnow.blogspot.com/feeds/posts/default\42 /\76\n\74link rel\75\42alternate\42 type\75\42application/rss+xml\42 title\75\42Sad Geeks In Snow - RSS\42 href\75\42http://sadgeeksinsnow.blogspot.com/feeds/posts/default?alt\75rss\42 /\76\n\74link rel\75\42service.post\42 type\75\42application/atom+xml\42 title\75\42Sad Geeks In Snow - Atom\42 href\75\42http://www.blogger.com/feeds/595472175096221442/posts/default\42 /\76\n\74link rel\75\42EditURI\42 type\75\42application/rsd+xml\42 title\75\42RSD\42 href\75\42http://www.blogger.com/rsd.g?blogID\075595472175096221442\42 /\76\n\74link rel\75\42alternate\42 type\75\42application/atom+xml\42 title\75\42Sad Geeks In Snow - Atom\42 href\75\42http://sadgeeksinsnow.blogspot.com/feeds/7508926803578867367/comments/default\42 /\76\n', 'meTag': '', 'openIdOpTag': '', 'googleProfileUrl': 'https://plus.google.com/107868869331863912741', 'imageSrcTag': '', 'latencyHeadScript': '\74script type\75\42text/javascript\42\76(function() { var a\75window,b\75\42jstiming\42,d\75\42tick\42;var e\75function(c){this.t\75{};this.tick\75function(c,p,h){h\75void 0!\75h?h:(new Date).getTime();this.t[c]\75[h,p]};this[d](\42start\42,null,c)},f\75new e;a.jstiming\75{Timer:e,load:f};if(a.performance\46\46a.performance.timing){var g\75a.performance.timing,j\75a[b].load,k\75g.navigationStart,l\75g.responseStart;0\74k\46\46l\76\75k\46\46(j[d](\42_wtsrt\42,void 0,k),j[d](\42wtsrt_\42,\42_wtsrt\42,l),j[d](\42tbsd_\42,\42wtsrt_\42))}\ntry{var m\75null;a.chrome\46\46a.chrome.csi\46\46(m\75Math.floor(a.chrome.csi().pageT),j\46\0460\74k\46\46(j[d](\42_tbnd\42,void 0,a.chrome.csi().startE),j[d](\42tbnd_\42,\42_tbnd\42,k)));null\75\75m\46\46a.gtbExternal\46\46(m\75a.gtbExternal.pageT());null\75\75m\46\46a.external\46\46(m\75a.external.pageT,j\46\0460\74k\46\46(j[d](\42_tbnd\42,void 0,a.external.startE),j[d](\42tbnd_\42,\42_tbnd\42,k)));m\46\46(a[b].pt\75m)}catch(n){};a.tickAboveFold\75function(c){var i\0750;if(c.offsetParent){do i+\75c.offsetTop;while(c\75c.offsetParent)}c\75i;750\76\75c\46\46a[b].load[d](\42aft\42)};var q\75!1;function r(){q||(q\75!0,a[b].load[d](\42firstScrollTime\42))}a.addEventListener?a.addEventListener(\42scroll\42,r,!1):a.attachEvent(\42onscroll\42,r);\n })();\74/script\076', 'mobileHeadScript': '', 'adsenseClientId': 'pub-5376788652959510', 'ieCssRetrofitLinks': '\74!--[if IE]\76\74script type\75\42text/javascript\42 src\75\42//www.blogger.com/static/v1/jsbin/2627287098-ieretrofit.js\42\76\74/script\76\n\74![endif]--\076', 'view': '', 'dynamicViewsCommentsSrc': '//www.blogblog.com/dynamicviews/4224c15c4e7c9321/js/comments.js', 'dynamicViewsScriptSrc': '//www.blogblog.com/dynamicviews/d1c1052fc1a7dfc6'}}, {'name': 'skin', 'data': {'vars': {'tabs_background_color': '#b7c0ff', 'body_background_gradient': 'url(http://themes.googleusercontent.com/image?id\0750BwVBOzw_-hbMNzE5NTg3YzUtMGU0Mi00OWQ3LTg2NjUtODk1OGVlMjg1YjZj)', 'tabs_selected_background_color': '#8392ed', 'link_hover_color': '#cd8e37', 'post_title_text_color': '#75cdff', 'description_text_color': '#666666', 'body_text_color': '#666666', 'link_visited_color': '#939c46', 'date_space': '15px', 'tabs_border_bevel_color': '#8392ed', 'post_title_font': 'normal normal 24px Times, Times New Roman, serif', 'body_background_imageBorder': 'none', 'tabs_text_color': '#5a4973', 'endSide': 'right', 'startSide': 'left', 'link_visited_decoration': 'none', 'header_background_gradient': 'none', 'tabs_font': 'normal normal 12px Arial, Tahoma, Helvetica, FreeSans, sans-serif', 'body_font': 'normal normal 13px Arial, Tahoma, Helvetica, FreeSans, sans-serif', 'body_background_imageBorder_position_left': '0', 'link_hover_decoration': 'underline', 'body_border_color': '#4c73d8', 'widget_title_font': 'normal bold 12px Verdana, Geneva, sans-serif', 'widget_title_text_color': '#666666', 'link_decoration': 'none', 'content_background_gradient': 'none', 'link_color': '#5a4973', 'content_background_color': '#ffffff', 'widget_title_border_bevel_color': 'transparent', 'keycolor': '#b7c0ff', 'header_font': 'normal normal 60px Times, \47Times New Roman\47, FreeSerif, serif', 'header_text_color': '#75cdff', 'widget_padding_top': '15px', 'widget_border_bevel_color': '#f9f9f9', 'tabs_selected_text_color': '#5a4973', 'body_background_imageBorder_position_right': '0', 'body_background_color': '#2764e3', 'post_first_padding_top': '0', 'widget_alternate_text_color': '#666666'}, 'override': ''}}, {'name': 'view', 'data': {'classic': {'name': 'classic', 'url': '/?view\75classic'}, 'flipcard': {'name': 'flipcard', 'url': '/?view\75flipcard'}, 'magazine': {'name': 'magazine', 'url': '/?view\75magazine'}, 'mosaic': {'name': 'mosaic', 'url': '/?view\75mosaic'}, 'sidebar': {'name': 'sidebar', 'url': '/?view\75sidebar'}, 'snapshot': {'name': 'snapshot', 'url': '/?view\75snapshot'}, 'timeslide': {'name': 'timeslide', 'url': '/?view\75timeslide'}}}]);
+_WidgetManager._RegisterWidget('_BlogArchiveView', new _WidgetInfo('BlogArchive1', 'sidebar-right-1', null, document.getElementById('BlogArchive1'), {'languageDirection': 'ltr'}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_FollowersView', new _WidgetInfo('Followers1', 'sidebar-right-1', null, document.getElementById('Followers1'), {'title': 'Followers', 'codeSnippet': '\74script type\75\42text/javascript\42\76\n        if (!window.google || !google.friendconnect) {\n          document.write(\47\74script type\75\42text/javascript\42\47 +\n              \47src\75\42http://www.google.com/friendconnect/script/friendconnect.js\42\76\47 +\n              \47\74/scr\47 + \47ipt\76\47);\n        }\n      \74/script\76\n\74script type\75\42text/javascript\42\76\n      if (!window.registeredBloggerCallbacks) {\n        window.registeredBloggerCallbacks \75 true;\n\n        \n\n        \n        gadgets.rpc.register(\47requestReload\47, function() {\n          document.location.reload();\n        });\n\n        \n        gadgets.rpc.register(\47requestSignOut\47, function(siteId) {\n          \n          google.friendconnect.container.openSocialSiteId \75 siteId;\n          google.friendconnect.requestSignOut();\n        });\n      }\n    \74/script\76\n\74script type\75\42text/javascript\42\76\n    \n    function registerGetBlogUrls() {\n      gadgets.rpc.register(\47getBlogUrls\47, function() {\n        var holder \75 {};\n        \n          \n            \n            \n              holder.currentPost \75 \42http://www.blogger.com/feeds/595472175096221442/posts/default/7508926803578867367\42;\n            \n            \n            \n              holder.currentComments \75 \42http://www.blogger.com/feeds/595472175096221442/7508926803578867367/comments/default\42;\n            \n            holder.currentPostUrl \75 \42\42;\n            holder.currentPostId \75 7508926803578867367\n          \n          \n          \n            holder.postFeed \75 \42http://www.blogger.com/feeds/595472175096221442/posts/default\42;\n          \n          \n          \n            holder.commentFeed \75 \42http://www.blogger.com/feeds/595472175096221442/comments/default\42;\n          \n          holder.currentBlogUrl \75 \42http://sadgeeksinsnow.blogspot.com/\42;\n          holder.currentBlogId \75 \042595472175096221442\42;\n        \n        return holder;\n      });\n    }\n  \74/script\76\n\74script type\75\42text/javascript\42\76\n  if (!window.registeredCommonBloggerCallbacks) {\n    window.registeredCommonBloggerCallbacks \75 true;\n\n    gadgets.rpc.register(\47resize_iframe\47, function(height) {\n      var el \75 document.getElementById(this[\47f\47]);\n      if (el) {\n        el.style.height \75 height + \47px\47;\n      }\n    });\n\n    \n    gadgets.rpc.register(\47set_pref\47, function() {});\n\n    registerGetBlogUrls();\n  }\n  \74/script\76\n\74div id\75\42div-5f7q1tjao4c4\42 style\75\42width: 100%; \42\76\74/div\76\n\74script type\75\42text/javascript\42\76\n    var skin \75 {};\n    skin[\47FACE_SIZE\47] \75 \04732\47;\n    skin[\47HEIGHT\47] \75 \042260\42;\n    skin[\47TITLE\47] \75 \42Followers\42;\n    skin[\47BORDER_COLOR\47] \75 \42transparent\42;\n    skin[\47ENDCAP_BG_COLOR\47] \75 \42transparent\42;\n    skin[\47ENDCAP_TEXT_COLOR\47] \75 \42#666666\42;\n    skin[\47ENDCAP_LINK_COLOR\47] \75 \42#5a4973\42;\n    skin[\47ALTERNATE_BG_COLOR\47] \75 \42transparent\42;\n    \n    skin[\47CONTENT_BG_COLOR\47] \75 \42transparent\42;\n    skin[\47CONTENT_LINK_COLOR\47] \75 \42#5a4973\42;\n    skin[\47CONTENT_TEXT_COLOR\47] \75 \42#666666\42;\n    skin[\47CONTENT_SECONDARY_LINK_COLOR\47] \75 \42#5a4973\42;\n    skin[\47CONTENT_SECONDARY_TEXT_COLOR\47] \75 \42#666666\42;\n    skin[\47CONTENT_HEADLINE_COLOR\47] \75 \42#666666\42;\n    skin[\47FONT_FACE\47] \75 \42normal normal 13px Arial, Tahoma, Helvetica, FreeSans, sans-serif\42;\n    google.friendconnect.container.setParentUrl(\42/\42);\n    google.friendconnect.container[\42renderMembersGadget\42](\n    {id: \42div-5f7q1tjao4c4\42,\n     height: 260,\n     \n     \n     \n     site: \04214227310688799996580\42,\n     \n     locale: \47en\47 },\n     skin);\n  \74/script\076'}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_AttributionView', new _WidgetInfo('Attribution1', 'footer-3', null, document.getElementById('Attribution1'), {'attribution': 'Powered by \74a href\75\47http://www.blogger.com\47 target\75\47_blank\47\76Blogger\74/a\76.'}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_HeaderView', new _WidgetInfo('Header1', 'header', null, document.getElementById('Header1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_NavbarView', new _WidgetInfo('Navbar1', 'navbar', null, document.getElementById('Navbar1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_BlogView', new _WidgetInfo('Blog1', 'main', null, document.getElementById('Blog1'), {'cmtInteractionsEnabled': false, 'lightboxEnabled': true, 'lightboxModuleUrl': '//www.blogger.com/static/v1/jsbin/2835446188-lbx.js', 'lightboxCssUrl': '//www.blogger.com/static/v1/v-css/228702327-lightbox_bundle.css'}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_PageListView', new _WidgetInfo('PageList1', 'null', null, document.getElementById('PageList1'), {'title': 'Pages', 'links': [{'href': 'http://sadgeeksinsnow.blogspot.tw/', 'title': 'Home', 'isCurrentPage': false}], 'mobile': false}, 'displayModeFull'));
+</script>
+
+</body></html>
