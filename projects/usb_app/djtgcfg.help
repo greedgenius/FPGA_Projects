@@ -1,3 +1,0 @@
- djtgcfg enum
- djtgcfg init -d Basys2
- djtgcfg prog -d Basys2 -i 0 -f uart.bit 
