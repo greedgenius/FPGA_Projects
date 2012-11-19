@@ -1,16 +1,28 @@
-uart:
-	* add stopbit size option
-	* add fork to end synthesis
+PLAN
+	HARDWARE
+	depp:
+		* use counter to test max speed
+		* test fifo
+		* test memory
+		* design parralel interface & protocol
+	SOFTWARE
+	depp:
+		* test depp functions
 
-spi_receive
-	* modify testbench
-	* retest it
+IDEAS
+	uart:
+		* add stopbit size option
+		* add fork to end synthesis
 
-fifo
-	* read opensource code 
-	* test it
-	* combine it with uart and test it
+	spi_receive
+		* modify testbench
+		* retest it
 
-aes
-	* read spec
-	* read opensource code
+	fifo
+		* read opensource code 
+		* test it
+		* combine it with uart and test it
+
+	aes
+		* read spec
+		* read opensource code
