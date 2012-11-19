@@ -1,5 +1,5 @@
 NET "clk"		LOC = B8; 
-NET "rst_n"		LOC = N3;
+#NET "rst_n"		LOC = N3;
 NET "a_db[7]"		LOC = H3; 
 NET "a_db[6]"		LOC = H1;
 NET "a_db[5]"		LOC = H2;
