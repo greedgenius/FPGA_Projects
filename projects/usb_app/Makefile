@@ -1,4 +1,4 @@
-all: depp.bit
+all: top.bit
 
 %.v: %.vpp
 	vpp $< > $@
@@ -14,7 +14,7 @@ all: depp.bit
 	echo "-write_timing_constraints yes" >> $@
 	echo "-opt_mode Speed" >> $@
 	echo "-opt_level 1" >> $@
-	echo "-top depp" >> $@
+	echo "-top top" >> $@
 
 %.ngc: %.xst %.v
 	xst -ifn $<
@@ -71,7 +71,7 @@ enum:
 init:
 	djtgcfg init -d Basys2
 prog:
-	djtgcfg prog -d Basys2 -i 0 -f depp.bit 
+	djtgcfg prog -d Basys2 -i 0 -f top.bit 
 
 
 ###############################################################################

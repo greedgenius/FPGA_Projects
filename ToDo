@@ -3,8 +3,7 @@ PLAN
 	depp:
 		* use counter to test max speed
 		* test fifo
-		* test memory
-		* design parralel interface & protocol
+
 	SOFTWARE
 	depp:
 		* test depp functions
