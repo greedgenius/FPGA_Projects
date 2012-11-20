@@ -1,6 +1,7 @@
+//synthesizable ram module for xilinx
 
 module ram #( 
-	parameter ADDR_WIDTH = 8, 
+	parameter ADDR_WIDTH = 10, 
 	parameter DATA_WIDTH = 8
 	)(
 	clk, we, waddr, raddr, din, dout
