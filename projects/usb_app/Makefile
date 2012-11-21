@@ -1,4 +1,21 @@
-all: top.bit
+
+
+TOPMODULE = top
+TOPFILE = top.v
+TOPBIT = top.bit
+TOPMCS = top_0.mcs
+
+TESTBENCH = t_top.v
+TBOUTPUT = top.vcd	
+
+DEVICE = Basys2	
+PROM = xcf02s
+
+###############################################################################
+# XILINX MAKEFILE 
+###############################################################################
+
+all: $(TOPBIT)
 
 %.v: %.vpp
 	vpp $< > $@
@@ -9,19 +26,17 @@ all: top.bit
 	echo "-ifn $*.v" >> $@
 	echo "-ifmt Verilog" >> $@
 	echo "-ofn $*.ngc" >> $@
-#	echo "-p xc2v6000-bf957-4" >> $@
 	echo "-p xc3s100e-cp132-4" >> $@
 	echo "-write_timing_constraints yes" >> $@
 	echo "-opt_mode Speed" >> $@
 	echo "-opt_level 1" >> $@
-	echo "-top top" >> $@
+	echo "-top $(TOPMODULE)" >> $@
 
 %.ngc: %.xst %.v
 	xst -ifn $<
 
 %.ngd: %.ngc
 	ngdbuild -aul $* -uc depp.ucf
-#	ngdbuild -aul $* -uc starter_board.ucf
 
 %.ncd: %.ngd
 	map -pr b -timing -detail $*
@@ -48,6 +63,10 @@ all: top.bit
 	rm -rf sa_temp
 	rm xilinx.sys
 
+promgen: $(TOPBIT) 
+	promgen -w -p mcs -c FF -o $(TOPMODULE).mcs -s 16384 -u 00000000 $(TOPBIT) -i 0 -x $(PROM) -z
+#	promgen -w -p mcs -c FF -o output.mcs -s 16384 -u 00000000 1.bit -data_file up 17f46a file1.txt -data_file up 17f50b file2.hex -data_file up 47db6d file3.nky -bpi_dc parallel
+
 do-not-clean:
 # This is to make sure xilinx-clean is not the default target
 	@echo "Meep! Define your default target before including 'xilinx.mk'."
@@ -56,93 +75,83 @@ xilinx-clean:
 	rm -rf *.lst *.ngc *.ngd *.ncd *.bld *.mrp *.ngm *.pcf *.srp *.bgn \
 	       *.dly *.drc *.pad *.xpi *.par *.nav *.imp *.csv *.twr *.twx \
                *.txt *.dsn _impact* *.ut *_par.xst xst *.map *.xrpt *.ptwx \
-               *.xml *.unroutes *.xwbt *.html *.log xlnx_auto_0_xdb _xmsgs  
+               *.xml *.unroutes *.xwbt *.html *.log xlnx_auto_0_xdb _xmsgs \
+	       *.mcs *.cfi *.prm
 
 verilog-clean:
 	rm -rf *.trn *.vdc verilog.log *.out *.vcd
 
-very-clean: xilinx-clean verilog-clean
+very-clean: xilinx-clean verilog-clean cclean
 	rm -rf *.ace *.bit
 
+###############################################################################
+# DIGILENT DOWNLOAD MAKEFILE
+###############################################################################
 
-#djtgcfg download
 enum:
 	djtgcfg enum
 init:
-	djtgcfg init -d Basys2
+	djtgcfg init -d $(DEVICE)
 prog:
-	djtgcfg prog -d Basys2 -i 0 -f top.bit 
+	djtgcfg prog -d $(DEVICE) -i 0 -f $(TOPMODULE).bit 
+rom:
+	djtgcfg prog -d $(DEVICE) -i 1 -f $(TOPMCS) 
 
 
 ###############################################################################
-#
 # ICARUS VERILOG & GTKWAVE MAKEFILE
-# MADE BY WILLIAM GIBB FOR HACDC
-# williamgibb@gmail.com
-# 
-# USE THE FOLLOWING COMMANDS WITH THIS MAKEFILE
-#	"make check" - compiles your verilog design - good for checking code
-#	"make simulate" - compiles your design+TB & simulates your design
-#	"make display" - compiles, simulates and displays waveforms
-# 
 ###############################################################################
-#
-# CHANGE THESE THREE LINES FOR YOUR DESIGN
-#
-#TOOL INPUT
-SRC = depp.v
-TESTBENCH = t_depp.v
-TBOUTPUT = depp.vcd	#THIS NEEDS TO MATCH THE OUTPUT FILE
-			#FROM YOUR TESTBENCH
-###############################################################################
-# BE CAREFUL WHEN CHANGING ITEMS BELOW THIS LINE
-###############################################################################
-#TOOLS
+
 COMPILER = iverilog
 SIMULATOR = vvp
 VIEWER = gtkwave
-#TOOL OPTIONS
+
 COFLAGS = -v -o
 SFLAGS = -v
-SOUTPUT = -vcd #-lxt		#SIMULATOR OUTPUT TYPE
-#TOOL OUTPUT
-COUTPUT = compiler.out			#COMPILER OUTPUT
+SOUTPUT = -vcd 
+COUTPUT = compiler.out			
 ###############################################################################
+
 #MAKE DIRECTIVES
-check : $(TESTBENCH) $(SRC)
-	$(COMPILER) -v $(SRC)
+check : $(TESTBENCH) $(TOPFILE)
+	$(COMPILER) -v $(TOPFILE)
 
 simulate: $(COUTPUT)
 	$(SIMULATOR) $(SFLAGS) $(COUTPUT) $(SOUTPUT)
 
 display: $(TBOUTPUT)
 	$(VIEWER) $(TBOUTPUT) &
+
 #MAKE DEPENDANCIES
 $(TBOUTPUT): $(COUTPUT)
 	$(SIMULATOR) $(SOPTIONS) $(COUTPUT) $(SOUTPUT)
 
-$(COUTPUT): $(TESTBENCH) $(SRC)
-	$(COMPILER) $(COFLAGS) $(COUTPUT) $(TESTBENCH) $(SRC)
+$(COUTPUT): $(TESTBENCH) $(TOPFILE)
+	$(COMPILER) $(COFLAGS) $(COUTPUT) $(TESTBENCH) $(TOPFILE)
 
 
 
-
-# Adept SDK GCC COMPILE COMMANDS
+###############################################################################
+# Adept SDK GCC MAKEFILE
+###############################################################################
 
 CC = gcc
 INC = /usr/local/include/digilent/adept
 LIBDIR = /usr/local/lib/digilent/adept
-TARGETS = DeppAdder
+C_TARGETS = DeppDemo
+C_SOURCE = DeppDemo.cpp
 CFLAGS = -I $(INC) -L $(LIBDIR) 
+###############################################################################
 
-cpp: $(TARGETS)
+cpp: $(C_TARGETS)
 
-DeppAdder:
-	$(CC) $(CFLAGS) -o DeppDemo DeppDemo.cpp -ldepp -ldmgr
+$(C_TARGETS):
+	$(CC) $(CFLAGS) -o $(C_TARGETS) $(C_SOURCE) -ldepp -ldmgr
 	
+cclean:
+	rm -f $(C_TARGETS)
 
-.PHONY: vclean
-
-vclean:
-	rm -f $(TARGETS)
-
+deppwrite:
+	./DeppDemo -p 123 -c 1 -b 73 -d $(DEVICE)
+deppread:
+	./DeppDemo -g 123 -c 1 -d $(DEVICE)

@@ -14,13 +14,13 @@ IDEAS
 		* add fork to end synthesis
 
 	spi_receive
+		* write a version that can run up to 1 msps
 		* modify testbench
 		* retest it
 
 	fifo
 		* read opensource code 
 		* test it
-		* combine it with uart and test it
 
 	aes
 		* read spec
