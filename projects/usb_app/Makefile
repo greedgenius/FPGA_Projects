@@ -3,7 +3,7 @@
 TOPMODULE = top
 TOPFILE = top.v
 TOPBIT = top.bit
-TOPMCS = top_0.mcs
+TOPMCS = top.mcs
 
 TESTBENCH = t_top.v
 TBOUTPUT = top.vcd	
@@ -64,8 +64,9 @@ all: $(TOPBIT)
 	rm xilinx.sys
 
 promgen: $(TOPBIT) 
-	promgen -w -p mcs -c FF -o $(TOPMODULE).mcs -s 16384 -u 00000000 $(TOPBIT) -i 0 -x $(PROM) -z
+#	promgen -w -p mcs -c FF -o $(TOPMODULE).mcs -s 16384 -u 00000000 $(TOPBIT) -i 0 -x $(PROM) -z
 #	promgen -w -p mcs -c FF -o output.mcs -s 16384 -u 00000000 1.bit -data_file up 17f46a file1.txt -data_file up 17f50b file2.hex -data_file up 47db6d file3.nky -bpi_dc parallel
+	promgen -u 0 $(TOPBIT) -p mcs -w -x $(PROM)
 
 do-not-clean:
 # This is to make sure xilinx-clean is not the default target
