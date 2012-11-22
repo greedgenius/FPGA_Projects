@@ -15,8 +15,10 @@ DEVICE = Basys2
 PACKAGE = xc3s100e-cp132-4
 PROM = xcf02s
 
-C_TARGETS = DeppDemo
-C_SOURCE = DeppDemo.cpp
+#C_TARGETS = DeppDemo
+#C_SOURCE = DeppDemo.cpp
+C_TARGETS = depp_through_put 
+C_SOURCE = depp_through_put.cpp
 
 ###############################################################################
 # XILINX MAKEFILE 
@@ -151,7 +153,7 @@ LIBDIR = /usr/local/lib/digilent/adept
 CFLAGS = -I $(INC) -L $(LIBDIR) 
 ###############################################################################
 
-cpp: $(C_TARGETS)
+compile: $(C_TARGETS)
 
 $(C_TARGETS):
 	$(CC) $(CFLAGS) -o $(C_TARGETS) $(C_SOURCE) -ldepp -ldmgr
