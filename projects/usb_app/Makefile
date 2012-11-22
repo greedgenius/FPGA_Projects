@@ -12,13 +12,19 @@ TESTBENCH = t_top.v
 TBOUTPUT = top.vcd
 
 DEVICE = Basys2
+PACKAGE = xc3s100e-cp132-4
 PROM = xcf02s
+
+C_TARGETS = DeppDemo
+C_SOURCE = DeppDemo.cpp
 
 ###############################################################################
 # XILINX MAKEFILE 
 ###############################################################################
 
-all: $(TOPBIT)
+genbit: $(TOPBIT)
+
+genmcs: $(TOPMCS)
 
 %.v: %.vpp
 	vpp $< > $@
@@ -29,7 +35,7 @@ all: $(TOPBIT)
 	echo "-ifn $*.v" >> $@
 	echo "-ifmt Verilog" >> $@
 	echo "-ofn $*.ngc" >> $@
-	echo "-p xc3s100e-cp132-4" >> $@
+	echo "-p $(PACKAGE)" >> $@
 	echo "-write_timing_constraints yes" >> $@
 	echo "-opt_mode Speed" >> $@
 	echo "-opt_level 1" >> $@
@@ -67,7 +73,7 @@ all: $(TOPBIT)
 	rm -rf sa_temp
 	rm xilinx.sys
 
-promgen: $(TOPBIT) 
+%.mcs: %.bit 
 #	promgen -w -p mcs -c FF -o $(TOPMODULE).mcs -s 16384 -u 00000000 $(TOPBIT) -i 0 -x $(PROM) -z
 	promgen -u 0 $(TOPBIT) -p mcs -w -x $(PROM)
 
@@ -80,13 +86,13 @@ xilinx-clean:
 	       *.dly *.drc *.pad *.xpi *.par *.nav *.imp *.csv *.twr *.twx \
                *.txt *.dsn _impact* *.ut *_par.xst xst *.map *.xrpt *.ptwx \
                *.xml *.unroutes *.xwbt *.html *.log xlnx_auto_0_xdb _xmsgs \
-	       *.mcs *.cfi *.prm
+	       *.cfi *.prm
 
 verilog-clean:
 	rm -rf *.trn *.vdc verilog.log *.out *.vcd
 
 very-clean: xilinx-clean verilog-clean cclean
-	rm -rf *.ace *.bit
+	rm -rf *.ace *.bit *.mcs 
 
 ###############################################################################
 # DIGILENT DOWNLOAD MAKEFILE
@@ -142,8 +148,6 @@ $(COUTPUT): $(TESTBENCH) $(TOPFILE)
 CC = gcc
 INC = /usr/local/include/digilent/adept
 LIBDIR = /usr/local/lib/digilent/adept
-C_TARGETS = DeppDemo
-C_SOURCE = DeppDemo.cpp
 CFLAGS = -I $(INC) -L $(LIBDIR) 
 ###############################################################################
 
@@ -157,5 +161,6 @@ cclean:
 
 deppwrite:
 	./DeppDemo -p 123 -c 1 -b 73 -d $(DEVICE)
+
 deppread:
 	./DeppDemo -g 123 -c 1 -d $(DEVICE)
