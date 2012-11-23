@@ -15,10 +15,8 @@ DEVICE = Basys2
 PACKAGE = xc3s100e-cp132-4
 PROM = xcf02s
 
-#C_TARGETS = DeppDemo
-#C_SOURCE = DeppDemo.cpp
-C_TARGETS = depp_throughput 
-C_SOURCE = depp_throughput.cpp
+#C_TARGET = DeppDemo
+C_TARGET = depp_throughput 
 
 ###############################################################################
 # XILINX MAKEFILE 
@@ -76,7 +74,7 @@ genmcs: $(TOPMCS)
 	rm xilinx.sys
 
 %.mcs: %.bit 
-#	promgen -w -p mcs -c FF -o $(TOPMODULE).mcs -s 16384 -u 00000000 $(TOPBIT) -i 0 -x $(PROM) -z
+#	promgen -w -p mcs -c FF -o $(TOPMCS) -s 16384 -u 00000000 $(TOPBIT) -i 0 -x $(PROM) -z
 	promgen -u 0 $(TOPBIT) -p mcs -w -x $(PROM)
 
 do-not-clean:
@@ -153,13 +151,13 @@ LIBDIR = /usr/local/lib/digilent/adept
 CFLAGS = -I $(INC) -L $(LIBDIR) 
 ###############################################################################
 
-compile: $(C_TARGETS)
+compile: $(C_TARGET)
 
-$(C_TARGETS):
-	$(CC) $(CFLAGS) -o $(C_TARGETS) $(C_SOURCE) -ldepp -ldmgr
+$(C_TARGET):
+	$(CC) $(CFLAGS) -o $(C_TARGET) $(C_TARGET).cpp -ldepp -ldmgr
 	
 cclean:
-	rm -f $(C_TARGETS)
+	rm -f $(C_TARGET)
 
 deppwrite:
 	./DeppDemo -p 123 -c 1 -b 73 -d $(DEVICE)
