@@ -1,12 +1,6 @@
 PLAN
-	HARDWARE
 	depp:
-		* use counter to test max speed
 		* test fifo
-
-	SOFTWARE
-	depp:
-		* test depp functions
 
 IDEAS
 	uart:
