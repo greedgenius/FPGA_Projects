@@ -17,8 +17,8 @@ PROM = xcf02s
 
 #C_TARGETS = DeppDemo
 #C_SOURCE = DeppDemo.cpp
-C_TARGETS = depp_through_put 
-C_SOURCE = depp_through_put.cpp
+C_TARGETS = depp_throughput 
+C_SOURCE = depp_throughput.cpp
 
 ###############################################################################
 # XILINX MAKEFILE 
@@ -104,9 +104,9 @@ enum:
 	djtgcfg enum
 init:
 	djtgcfg init -d $(DEVICE)
-prog:
+progbit: genbit
 	djtgcfg prog -d $(DEVICE) -i 0 -f $(TOPMODULE).bit 
-rom:
+progmcs: genmcs
 	djtgcfg prog -d $(DEVICE) -i 1 -f $(TOPMCS) 
 
 
