@@ -1,0 +1,125 @@
+      LABEL-
+INSTRUCTION-
+   OPERAND1-
+   OPERAND2-
+    COMMENT-;Interrupt example
+      LABEL-
+INSTRUCTION-
+   OPERAND1-
+   OPERAND2-
+    COMMENT-;
+      LABEL-
+INSTRUCTION-CONSTANT
+   OPERAND1-waveform_port
+   OPERAND2-02
+    COMMENT-;bit0 will be data
+      LABEL-
+INSTRUCTION-CONSTANT
+   OPERAND1-counter_port
+   OPERAND2-04
+    COMMENT-
+      LABEL-
+INSTRUCTION-CONSTANT
+   OPERAND1-pattern_10101010
+   OPERAND2-AA
+    COMMENT-
+      LABEL-
+INSTRUCTION-NAMEREG
+   OPERAND1-sA
+   OPERAND2-interrupt_counter
+    COMMENT-
+      LABEL-
+INSTRUCTION-
+   OPERAND1-
+   OPERAND2-
+    COMMENT-;
+      LABEL-start
+INSTRUCTION-LOAD
+   OPERAND1-interrupt_counter
+   OPERAND2-00
+    COMMENT-;reset interrupt counter
+      LABEL-
+INSTRUCTION-LOAD
+   OPERAND1-s2
+   OPERAND2-pattern_10101010
+    COMMENT-;initial output condition
+      LABEL-
+INSTRUCTION-ENABLE
+   OPERAND1-INTERRUPT
+   OPERAND2-
+    COMMENT-
+      LABEL-
+INSTRUCTION-
+   OPERAND1-
+   OPERAND2-
+    COMMENT-;
+      LABEL-drive_wave
+INSTRUCTION-OUTPUT
+   OPERAND1-s2
+   OPERAND2-waveform_port
+    COMMENT-
+      LABEL-
+INSTRUCTION-LOAD
+   OPERAND1-s0
+   OPERAND2-07
+    COMMENT-;delay size
+      LABEL-loop
+INSTRUCTION-SUB
+   OPERAND1-s0
+   OPERAND2-01
+    COMMENT-;delay loop
+      LABEL-
+INSTRUCTION-JUMP
+   OPERAND1-NZ
+   OPERAND2-loop
+    COMMENT-
+      LABEL-
+INSTRUCTION-XOR
+   OPERAND1-s2
+   OPERAND2-FF
+    COMMENT-;toggle waveform
+      LABEL-
+INSTRUCTION-JUMP
+   OPERAND1-drive_wave
+   OPERAND2-
+    COMMENT-
+      LABEL-
+INSTRUCTION-
+   OPERAND1-
+   OPERAND2-
+    COMMENT-;
+      LABEL-
+INSTRUCTION-ADDRESS
+   OPERAND1-2B0
+   OPERAND2-
+    COMMENT-
+      LABEL-int_routine
+INSTRUCTION-ADD
+   OPERAND1-interrupt_counter
+   OPERAND2-01
+    COMMENT-;increment counter
+      LABEL-
+INSTRUCTION-OUTPUT
+   OPERAND1-interrupt_counter
+   OPERAND2-counter_port
+    COMMENT-
+      LABEL-
+INSTRUCTION-RETURNI
+   OPERAND1-ENABLE
+   OPERAND2-
+    COMMENT-
+      LABEL-
+INSTRUCTION-
+   OPERAND1-
+   OPERAND2-
+    COMMENT-;
+      LABEL-
+INSTRUCTION-ADDRESS
+   OPERAND1-3FF
+   OPERAND2-
+    COMMENT-;set interrupt vector
+      LABEL-
+INSTRUCTION-JUMP
+   OPERAND1-int_routine
+   OPERAND2-
+    COMMENT-

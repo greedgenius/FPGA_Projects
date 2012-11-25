@@ -1,7 +1,7 @@
 PLAN
-	depp:
-		* test fifo
-
+	cpu:
+		* minicom ascii
+		* link depp to cpu
 IDEAS
 	uart:
 		* add stopbit size option

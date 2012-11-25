@@ -1,0 +1,5 @@
+Table of constant values and their specified constant labels.
+
+02  waveform_port
+04  counter_port
+AA  pattern_10101010
