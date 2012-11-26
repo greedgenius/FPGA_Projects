@@ -1,0 +1,4 @@
+NET "tx" LOC = b5;
+NET "clk" LOC = B8;
+NET "rx" LOC = J3;
+NET "alarm" LOC = G1;

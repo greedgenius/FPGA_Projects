@@ -3,13 +3,13 @@
 # USER CONFIG PARAMETERS 
 ###############################################################################
 
-TOPMODULE = kcpsm3
-TOPFILE = kcpsm3.v
-TOPBIT = kcpsm3.bit
-TOPMCS = kcpsm3.mcs
+TOPMODULE = uart_clock
+TOPFILE = uart_clock.v
+TOPBIT = uart_clock.bit
+TOPMCS = uart_clock.mcs
 
 TESTBENCH = t_top.v
-TBOUTPUT = kcpsm3.vcd
+TBOUTPUT = uart_clock.vcd
 
 DEVICE = Basys2
 PACKAGE = xc3s100e-cp132-4
@@ -45,7 +45,7 @@ genmcs: $(TOPMCS)
 	xst -ifn $<
 
 %.ngd: %.ngc
-	ngdbuild -aul $* -uc kcpsm3.ucf
+	ngdbuild -aul $* -uc uart_clock.ucf
 
 %.ncd: %.ngd
 	map -pr b -timing -detail $*

@@ -67,6 +67,13 @@
 // essential purpose of any limited remedies herein. 
 //////////////////////////////////////////////////////////////////////////////////
 
+`include "kcpsm3.v"
+`include "uart_rx.v"
+`include "uart_tx.v"
+`include "kcuart_rx.v"
+`include "kcuart_tx.v"
+`include "bbfifo_16x8.v"
+`include "UCLOCK.V"
 
 module uart_clock
 (	tx,
