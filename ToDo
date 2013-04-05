@@ -1,7 +1,4 @@
 PLAN
-	cpu:
-		* minicom ascii
-		* link depp to cpu
 IDEAS
 	uart:
 		* add stopbit size option
@@ -12,10 +9,3 @@ IDEAS
 		* modify testbench
 		* retest it
 
-	fifo
-		* read opensource code 
-		* test it
-
-	aes
-		* read spec
-		* read opensource code
