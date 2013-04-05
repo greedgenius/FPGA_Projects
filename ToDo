@@ -1,5 +1,7 @@
 PLAN
 IDEAS
+	depp:
+		* build vip
 	uart:
 		* add stopbit size option
 		* add fork to end synthesis
@@ -8,4 +10,5 @@ IDEAS
 		* write a version that can run up to 1 msps
 		* modify testbench
 		* retest it
+	
 
