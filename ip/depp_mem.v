@@ -1,9 +1,22 @@
 //Depp_mem module
 //Developed by F.M.Zhu
+//this module that converts depp interface to memory interface
 
-module depp_mem (clk
-	, a_astb, a_dstb, a_write, a_db, a_wait
-	, we, addr, din, dout
+module depp_mem (
+	clk		//clock
+
+	//depp interface
+	, a_astb	//depp address strobe, active low
+	, a_dstb	//depp data strobe, active low
+	, a_write	//depp write signal, active low
+	, a_db		//bi directional data bus
+	, a_wait	//indicate peripheral is ready to accept data or has data available
+
+	//memory interface
+	, we		//write enable, active high
+	, addr		//memory address
+	, din		//memory write data
+	, dout		//memory read data
 	);
 
 input 		clk;

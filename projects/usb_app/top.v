@@ -8,6 +8,8 @@ module top (clk
 
 parameter ADDR_WIDTH = 8;
 parameter DATA_WIDTH = 8;
+defparam ram.ADDR_WIDTH = ADDR_WIDTH;
+defparam ram.DATA_WIDTH = DATA_WIDTH;
 
 input		clk;
 
@@ -26,9 +28,10 @@ depp_mem depp_mem (.clk(clk)
 	, .we(we), .addr(addr), .din(din), .dout(dout)
 	);
 
-ram #(ADDR_WIDTH, DATA_WIDTH) ram (.clk(clk)
+ram ram (.clk(clk)
 	, .we(we), .waddr(addr), .raddr(addr), .din(din), .dout(dout)
 	);
+
 
 endmodule
 

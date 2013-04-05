@@ -1,9 +1,14 @@
 //Depp module
 //Developed by F.M.Zhu
 
-module depp (clk
-	, a_astb, a_dstb, a_write, a_db, a_wait
-	, a_addr_reg 
+module depp (
+	clk		//clock
+	, a_astb	//depp address strobe, active low
+	, a_dstb	//depp data strobe, active low
+	, a_write	//depp write signal, active low
+	, a_db		//bi directional data bus
+	, a_wait	//indicate peripheral is ready to accept data or has data available
+	, a_addr_reg	//latch address to show on led
 	);
 
 input 		clk;

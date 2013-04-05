@@ -1,0 +1,13 @@
+this is a project where you can build, simulate some simple modules.
+To get this stuff running you will need:
+for simulation
+	- icarus
+	- gtkwave
+for synthesis
+	- Xilinx ISE
+for FPGA
+	- you'll need a digilent Basys2 board (or you can modify the environment for other boards)
+	- digilent adept
+	- libusb
+	
+That's about all I can remember for now, good luck!

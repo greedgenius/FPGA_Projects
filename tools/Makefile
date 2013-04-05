@@ -15,8 +15,8 @@ DEVICE = Basys2
 PACKAGE = xc3s100e-cp132-4
 PROM = xcf02s
 
-#C_TARGET = DeppDemo
-C_TARGET = depp_throughput 
+C_TARGET = DeppDemo
+#C_TARGET = depp_throughput
 
 ###############################################################################
 # XILINX MAKEFILE 
@@ -159,8 +159,8 @@ $(C_TARGET):
 cclean:
 	rm -f $(C_TARGET)
 
-deppwrite:
+deppwrite: compile
 	./DeppDemo -p 123 -c 1 -b 73 -d $(DEVICE)
 
-deppread:
+deppread: compile
 	./DeppDemo -g 123 -c 1 -d $(DEVICE)
