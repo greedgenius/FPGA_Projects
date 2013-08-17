@@ -1,1 +1,22 @@
-../../ucf/depp.ucf
+NET "clk"		LOC = B8; 
+#NET "rst_n"		LOC = N3;
+NET "a_db[7]"		LOC = H3; 
+NET "a_db[6]"		LOC = H1;
+NET "a_db[5]"		LOC = H2;
+NET "a_db[4]"		LOC = L2;
+NET "a_db[3]"		LOC = L1;
+NET "a_db[2]"		LOC = M1;
+NET "a_db[1]"		LOC = M2;
+NET "a_db[0]"		LOC = N2;
+NET "a_astb"		LOC = F2;
+NET "a_dstb"		LOC = F1;
+NET "a_write"		LOC = C2;
+NET "a_wait"		LOC = D2;
+#NET "a_addr_reg[7]"	LOC = G1;
+#NET "a_addr_reg[6]"	LOC = P4;
+#NET "a_addr_reg[5]"	LOC = N4;
+#NET "a_addr_reg[4]"	LOC = N5; 
+#NET "a_addr_reg[3]"	LOC = P6;
+#NET "a_addr_reg[2]"	LOC = P7;
+#NET "a_addr_reg[1]"	LOC = M11;
+#NET "a_addr_reg[0]"	LOC = M5;

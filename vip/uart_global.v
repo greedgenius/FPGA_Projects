@@ -1,1 +1,2 @@
-../ip/uart_global.v
+//`define PARITY_ODD
+//`define PARITY_EVEN
