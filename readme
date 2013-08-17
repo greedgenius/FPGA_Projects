@@ -1,13 +1,20 @@
-this is a project where you can build, simulate some simple modules.
-To get this stuff running you will need:
-for simulation
+This is a hobby project I worked on several weekends, it is intended to build some interesting FPGA project that communicates with PC and does something.
+The project was been abandoned for quite a while, but there is still some modules that I can use for future projects.
+It is also an example of how to build a simple open source simulation and synthesis environment with Linux.
+
+This project contains the following IP I've built
+	A non-buffered UART module with TX/RX capability, and simple testcase for UART
+	Depp module connected to memory, tested with Basys2 FPGA.
+	A SPI module with simple testcase to verify
+The Makefile in projects/usb_app is also useful for simulation and synthesis 
+
+The project was tested on Ubuntu with the following progarms installed
+Simulation
 	- icarus
 	- gtkwave
-for synthesis
+FPGA
 	- Xilinx ISE
-for FPGA
-	- you'll need a digilent Basys2 board (or you can modify the environment for other boards)
+	- digilent Basys2 board 
 	- digilent adept
 	- libusb
 	
-That's about all I can remember for now, good luck!
